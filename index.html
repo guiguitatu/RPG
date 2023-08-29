@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="rpg.css">
+  <title>Objeto Movimentação</title>
+
+</head>
+<body>
+
+  <div class="botoes">
+  <button class="esquerda" id="btnTopLeft">↤</button>
+  <button class="direita" id="btnTopRight">↦</button>
+  <button class="cima" id="btnBottomLeft">↥</button>
+  <button class="baixo" id="btnBottomRight">↧</button>
+  </div>
+  <br>
+  <div class="mapa">
+<!--    <div class="container">-->
+<!--      <div class="object" id="movableObject"><img src="personagem2.png"></div>-->
+<!--    </div>-->
+  <table class="tabelamovimento">
+    <script>
+      for(i=0; i<12; i++) {
+        document.write("<tr>")
+        for(j=0; j<20; j++) {
+          document.write(`<td class="fog" id="mapa(${i},${j}"></td>`)
+        }
+        document.write("</tr>")
+      }
+    </script>
+  </table>
+  </div>
+  <script src="rpg.js"></script>
+</body>
+</html>

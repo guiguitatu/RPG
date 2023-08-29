@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f0f0f0;
+    align-items: center;
+}
+  
+.container {
+ display: flex;
+}
+
+.tabelamovimento{
+    width: 875px;
+    height: 526px;
+
+}
+
+.fog{
+    padding: 0;
+    width: 43px;
+    height: 43px;
+}
+
+.mapa {
+    padding: 51px 0 0 50px;
+    width: 1000px;
+    height: 617px;
+    background-image: url("https://as1.ftcdn.net/v2/jpg/05/06/27/22/1000_F_506272232_1LkYDKZJ0Rh1FHSteNj91rd3aILMKK2a.jpg");
+}
+
+.botoes{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: flex-start;
+    width: 300px;
+    height: 80px;
+    background-color: blueviolet;
+    border-radius: 20px;
+    padding-top: 20px;
+}
+.object {
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-left: 20px;
+}
+  
+.esquerda {
+    font-size: 40px;
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.direita {
+    font-size: 40px;
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.cima {
+    font-size: 40px;
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer; 
+}
+.baixo {
+    font-size: 40px;
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+  
