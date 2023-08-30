@@ -13,14 +13,15 @@ body {
 
 .tabelamovimento{
     width: 875px;
-    height: 526px;
+    height: 480px;
 
 }
 
 .fog{
     padding: 0;
     width: 43px;
-    height: 43px;
+    height: 42px;
+    margin: 2px 0 5px 0;
 }
 
 .mapa {
@@ -53,32 +54,10 @@ body {
     margin-left: 20px;
 }
   
-.esquerda {
+.btnseta{
     font-size: 40px;
     padding: 5px 10px;
     border: none;
     background-color: transparent;
     cursor: pointer;
 }
-.direita {
-    font-size: 40px;
-    padding: 5px 10px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-}
-.cima {
-    font-size: 40px;
-    padding: 5px 10px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer; 
-}
-.baixo {
-    font-size: 40px;
-    padding: 5px 10px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-}
-  
