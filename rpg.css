@@ -13,7 +13,7 @@ body {
 
 .tabelamovimento{
     width: 875px;
-    height: 480px;
+    height: 524px;
 
 }
 
@@ -21,7 +21,7 @@ body {
     padding: 0;
     width: 43px;
     height: 42px;
-    margin: 2px 0 5px 0;
+    /*margin: 2px 0 5px 0;*/
 }
 
 .mapa {
