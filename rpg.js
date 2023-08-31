@@ -1,21 +1,28 @@
-const object = document.getElementById("movableObject");
+// const btnesq = document.getElementById("btnsetaesquerda");
+// const btndir = document.getElementById("btnsetadireita");
+// const btncima = document.getElementById("btnsetacima");
+// const btnbaixo = document.getElementById("btnsetacima");
 
 d20 = false;
-posxpers = 6;
-posypers = 0;
-iniciar = false;
-inventario = [];
-mover = true;
- let arma, monstro, posxbaixo, posxcima, posydir, posyesq;
+let posxpers = 1;
+let posypers = 6;
+// var iniciar = false;
+// let nventario = [];
+// var mover = true;
+let blococima = 5;
+let blocobaixo = 7;
+let blocoesq = 0;
+let blocodir = 1;
+
 mapa = [
     [0,3,0,3,0,0,0,3,0,0,0,3,1,0,0,0,0,0,0,0],
     [0,0,4,0,0,0,0,0,0,0,0,3,1,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
     [1,1,1,0,1,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1,0,0,1,0],
-    [0,0,8,0,0,0,0,0,0,0,0,0,2,0,0,0,5,5,0,0],
-    [0,0,1,1,0,0,0,0,8,0,0,0,2,0,0,0,5,5,0,0],
-    [0,0,1,1,0,0,0,0,0,0,0,0,2,0,0,1,0,0,1,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,1,0,0,1,0],
+    [0,0,8,0,0,0,0,0,0,0,0,0,6,0,0,0,5,5,0,0],
+    [0,0,1,1,0,0,0,0,8,0,0,0,6,0,0,0,5,5,0,0],
+    [0,0,1,1,0,0,0,0,0,0,0,0,6,0,0,1,0,0,1,0],
     [1,1,1,1,1,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
     [0,4,0,0,0,0,0,0,0,0,9,0,1,0,0,0,0,0,0,0],
@@ -23,24 +30,92 @@ mapa = [
 ];
 
 function verposic(){
-    if (posxpers - 1 != ''){
-        posxcima = posxpers - 1;
+    if (posypers - 1 >= 0 && posypers - 1 <= 11){
+        blococima = posypers;
+        blococima -= 1;
+    } else {
+        console.log(posypers - 1)
     }
-    if (posxpers + 1 != ''){
-        posxbaixo = posxpers + 1;
+    if (posypers + 1 <= 11 && posypers - 1 >= 0){
+        blocobaixo = posypers;
+        blocobaixo += 1;
+    }else {
+        console.log(posypers + 1);
     }
-    if (posypers + 1 != ''){
-        posydir = posypers + 1;
+    if (posxpers + 1 >= 0 && posxpers + 1 <= 19){
+        blocodir = posxpers;
+        blocodir += 1;
+    }else {
+        console.log(posxpers + 1)
     }
-    if ( posypers - 1 != ''){
-        posyesq = posypers - 1;
+    if (posxpers - 1 <= 19 && posxpers - 1 >= 0){
+        blocoesq = posxpers;
+        blocoesq -= 1;
+    }else {
+        console.log(posxpers - 1)
+    }
+}
+
+function mudaposperscima() {
+    posypers -= 1;
+}
+function mudapospersbaixo() {
+    posypers += 1;
+}
+function mudapospersesq() {
+    posxpers -= 1;
+}
+function mudapospersdir() {
+    posxpers +=1;
+}
+
+function limpaarea(){
+    verposic();
+    var blocoboneco = document.getElementById(`mapa(${posxpers},${posypers})`);
+    if (blococima >= 0 && blococima <= 11) {
+        console.log("Bloco cima: " + blococima)
+        var quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
+        console.log(`mapa(${blococima},${posxpers})`)
+        var imgcima = quacima.querySelector("img");
+        imgcima.style.display = "none";
+    }
+    if (blocobaixo >= 0 && blocobaixo <= 11) {
+        console.log("Bloco baixo: " + blocobaixo)
+        var quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
+        console.log(`mapa(${blocobaixo},${posxpers})`)
+        var imgbaixo = quabaixo.querySelector("img");
+        imgbaixo.style.display = "none";
+    }
+    if (blocoesq >= 0 && blocoesq <= 19) {
+        console.log("Bloco esquerda: " + blocoesq)
+        var quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
+        console.log(`mapa(${posypers},${blocoesq})`)
+        var imgesq = quaesq.querySelector("img");
+        imgesq.style.display = "none";
+    }
+    if (blocodir >= 0 && blocodir <= 19) {
+        console.log("Bloco direita: " + blocodir)
+        var quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
+        console.log(`mapa(${posypers},${blocodir})`)
+        var imgdir = quadir.querySelector("img");
+        imgdir.style.display = "none";
     }
 }
 
 function movcima(){
     verposic();
-    if (posxcima === 0){
-        document.getElementById()
+    if (mapa[blococima][posypers] === 0) {
+        console.log(`bloco(${blococima},${posxpers})`)
+        var blocomuda = document.getElementById(`mapa(${blococima},${posxpers})`);
+        const imagem = blocomuda.querySelector("img");
+        blocomuda.remove.style = "incline";
+        imagem.src = "personagem3.png";
+        var blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
+        var imgboneco = blocopers.querySelector("img");
+        imgboneco.style.display = "none";
+        mudaposperscima();
+        limpaarea()
+
     }
 }
 
@@ -53,4 +128,17 @@ function movesquerda(){
 
 function movdireita() {
     verposic();
+    if (mapa[posypers][blocodir] === 0) {
+        console.log(`bloco(${blococima},${posxpers})`)
+        var blocomuda = document.getElementById(`mapa(${posypers},${blocodir})`);
+        const imagem = blocomuda.querySelector("img");
+        blocomuda.remove.style = "incline";
+        imagem.src = "personagem3.png";
+        var blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
+        var imgboneco = blocopers.querySelector("img");
+        imgboneco.style.display = "none";
+        mudapospersdir();
+        limpaarea()
+
+    }
 }
