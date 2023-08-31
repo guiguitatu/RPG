@@ -6,8 +6,7 @@ posypers = 0;
 iniciar = false;
 inventario = [];
 mover = true;
-arma = 0;
-monstro = 0;
+ let arma, monstro, posxbaixo, posxcima, posydir, posyesq;
 mapa = [
     [0,3,0,3,0,0,0,3,0,0,0,3,1,0,0,0,0,0,0,0],
     [0,0,4,0,0,0,0,0,0,0,0,3,1,0,0,0,0,0,0,0],
@@ -23,30 +22,35 @@ mapa = [
     [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]
 ];
 
-
-// document.getElementById("btnTopLeft").addEventListener("click", () => moveObject(-50,));
-// document.getElementById("btnTopRight").addEventListener("click", () => moveObject(50,));
-// document.getElementById("btnBottomLeft").addEventListener("click", () => moveObject(0,-50,));
-// document.getElementById("btnBottomRight").addEventListener("click", () => moveObject(0,50,));
-// function moveObject(x, y) {
-//   const currentTop = parseInt(object.style.top) || 0;
-//   const currentLeft = parseInt(object.style.left) || 0;
-//
-//   object.style.top = `${currentTop + y}px`;
-//   object.style.left = `${currentLeft + x}px`;
-// }
+function verposic(){
+    if (posxpers - 1 != ''){
+        posxcima = posxpers - 1;
+    }
+    if (posxpers + 1 != ''){
+        posxbaixo = posxpers + 1;
+    }
+    if (posypers + 1 != ''){
+        posydir = posypers + 1;
+    }
+    if ( posypers - 1 != ''){
+        posyesq = posypers - 1;
+    }
+}
 
 function movcima(){
-    document.getElementById()
+    verposic();
+    if (posxcima === 0){
+        document.getElementById()
+    }
 }
 
 function movbaixo() {
-
+    verposic();
 }
 function movesquerda(){
-
+    verposic();
 }
 
 function movdireita() {
-
+    verposic();
 }
