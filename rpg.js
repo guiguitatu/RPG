@@ -21,8 +21,8 @@ mapa = [
     [1,1,1,0,1,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,1,0,0,1,0],
     [0,0,8,0,0,0,0,0,0,0,0,0,6,0,0,0,5,5,0,0],
-    [0,0,1,1,0,0,0,0,8,0,0,0,6,0,0,0,5,5,0,0],
-    [0,0,1,1,0,0,0,0,0,0,0,0,6,0,0,1,0,0,1,0],
+    [0,0,0,0,0,0,0,0,8,0,0,0,6,0,0,0,5,5,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,1,0,0,1,0],
     [1,1,1,1,1,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
     [0,4,0,0,0,0,0,0,0,0,9,0,1,0,0,0,0,0,0,0],
@@ -72,33 +72,33 @@ function mudapospersdir() {
 function limpaarea(){
     verposic();
     var blocoboneco = document.getElementById(`mapa(${posxpers},${posypers})`);
-    if (blococima >= 0 && blococima <= 11) {
+    if (blococima >= 0 && blococima < 11) {
         console.log("Bloco cima: " + blococima)
         var quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
         console.log(`mapa(${blococima},${posxpers})`)
         var imgcima = quacima.querySelector("img");
-        imgcima.style.display = "none";
+        imgcima.src = "trans.png";
     }
-    if (blocobaixo >= 0 && blocobaixo <= 11) {
+    if (blocobaixo >= 0 && blocobaixo < 11) {
         console.log("Bloco baixo: " + blocobaixo)
         var quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
         console.log(`mapa(${blocobaixo},${posxpers})`)
         var imgbaixo = quabaixo.querySelector("img");
-        imgbaixo.style.display = "none";
+        imgbaixo.src = "trans.png";
     }
-    if (blocoesq >= 0 && blocoesq <= 19) {
+    if (blocoesq > 0 && blocoesq < 19) {
         console.log("Bloco esquerda: " + blocoesq)
         var quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
         console.log(`mapa(${posypers},${blocoesq})`)
         var imgesq = quaesq.querySelector("img");
-        imgesq.style.display = "none";
+        imgesq.src = "trans.png";
     }
-    if (blocodir >= 0 && blocodir <= 19) {
+    if (blocodir > 0 && blocodir < 19) {
         console.log("Bloco direita: " + blocodir)
         var quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
         console.log(`mapa(${posypers},${blocodir})`)
         var imgdir = quadir.querySelector("img");
-        imgdir.style.display = "none";
+        imgdir.src = "trans.png";
     }
 }
 
@@ -108,31 +108,52 @@ function movcima(){
         console.log(`bloco(${blococima},${posxpers})`)
         var blocomuda = document.getElementById(`mapa(${blococima},${posxpers})`);
         const imagem = blocomuda.querySelector("img");
-        blocomuda.remove.style = "incline";
         imagem.src = "personagem3.png";
         var blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
         var imgboneco = blocopers.querySelector("img");
-        imgboneco.style.display = "none";
+        imgboneco.src = "trans.png"
         mudaposperscima();
-        limpaarea()
-
+        limpaarea();
     }
 }
 
 function movbaixo() {
     verposic();
+    if (mapa[blocobaixo][posypers] === 0) {
+        console.log(`bloco(${blocobaixo},${posxpers})`)
+        var blocomuda = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
+        const imagem = blocomuda.querySelector("img");
+        blocomuda.style.display = "block";
+        imagem.src = "personagem3.png";
+        var blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
+        var imgboneco = blocopers.querySelector("img");
+        imgboneco.style.display = "none";
+        mudapospersbaixo();
+        limpaarea();
+    }
 }
 function movesquerda(){
     verposic();
+    if (mapa[posypers][blocoesq] === 0) {
+        console.log(`bloco(${posypers},${blocoesq})`)
+        var blocomuda = document.getElementById(`mapa(${posypers},${blocoesq})`);
+        const imagem = blocomuda.querySelector("img");
+        blocomuda.style.display = "block";
+        imagem.src = "personagem3.png";
+        var blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
+        var imgboneco = blocopers.querySelector("img");
+        imgboneco.style.display = "none";
+        mudapospersesq();
+        limpaarea();
+    }
 }
 
 function movdireita() {
     verposic();
     if (mapa[posypers][blocodir] === 0) {
-        console.log(`bloco(${blococima},${posxpers})`)
+        console.log(`bloco(${posypers},${blocodir})`)
         var blocomuda = document.getElementById(`mapa(${posypers},${blocodir})`);
         const imagem = blocomuda.querySelector("img");
-        blocomuda.remove.style = "incline";
         imagem.src = "personagem3.png";
         var blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
         var imgboneco = blocopers.querySelector("img");
