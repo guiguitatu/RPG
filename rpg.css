@@ -11,10 +11,24 @@ body {
  display: flex;
 }
 
+
+.conteudo {
+    display: flex;
+    flex-direction: row;
+}
+
 .tabelamovimento{
     width: 875px;
     height: 500px;
 
+}
+.inventario{
+    margin-right: 20px;
+    margin-left: 20px;
+    background-image: url("fundolateral.png");
+    width: 360px;
+    height: 620px;
+    padding: 20px;
 }
 
 .fog{
@@ -30,6 +44,7 @@ body {
 }
 
 .combate{
+    visibility: visible;
     background-image: url("fundocombate.png");
     width: 700px;
     height: 400px;
@@ -77,4 +92,13 @@ body {
     border: none;
     background-color: transparent;
     cursor: pointer;
+}
+.btncombate{
+    background-color: #39241b;
+    color: rgb(179, 177, 177);
+    width: 100px;
+    height: 40px;
+    border: solid 3px;
+    border-radius: 10px;
+    border-color: rgb(165, 164, 164);
 }

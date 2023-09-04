@@ -7,14 +7,15 @@ let blocoesq = 0;
 let blocodir = 1;
 var cura = 0;
 let chaveboss = false;
-var mover = false;
+var mover = true;
+let vidainimigo = 0;
 
 mapa = [
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     [1,0,3,0,3,0,0,0,3,0,0,0,3,1,0,0,0,0,0,0,0,1],
     [1,0,0,4,0,0,0,0,0,0,0,0,3,1,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1],
-    [1,1,1,1,0,1,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,1,0,0,1,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,5,5,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,5,5,0,0,1],
@@ -55,16 +56,10 @@ function verposic(){
 
 function atualizainventario(){
     let inv = document.getElementById('inventario')
-    if (cura > 0){
-        txtcura = `Poções de cura : ${cura}`
-    }
-    if (chaveboss = true){
-        txtchaveboss = "Chaves: Sala do Boss"
-    }
+
     inv.innerHTML = `
     Espada longa europeia
-    ${txtcura}
-    ${txtchaveboss}
+    \nPoções de cura: ${cura}\n
     `
 }
 
@@ -117,7 +112,7 @@ function limpaarea(){
 function movcima(){
     if(mover === true) {
         verposic();
-        if (mapa[blococima][posxpers] === 0) {
+        if (mapa[blococima][posxpers] === 0 || mapa[blococima][posxpers] === 2) {
             console.log(`bloco(${blococima},${posxpers})`)
             var blocomuda = document.getElementById(`mapa(${blococima},${posxpers})`);
             const imagem = blocomuda.querySelector("img");
@@ -127,6 +122,7 @@ function movcima(){
             imgboneco.src = "trans.png"
             mudaposperscima();
             limpaarea();
+            atualizainventario()
         }
     }
 }
@@ -134,7 +130,7 @@ function movcima(){
 function movbaixo() {
     if (mover === true) {
         verposic();
-        if (mapa[blocobaixo][posxpers] === 0) {
+        if (mapa[blocobaixo][posxpers] === 0 || mapa[blocobaixo][posxpers] === 2) {
             console.log(`bloco(${blocobaixo},${posxpers})`)
             var blocomuda = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
             const imagem = blocomuda.querySelector("img");
@@ -143,6 +139,7 @@ function movbaixo() {
             var imgboneco = blocopers.querySelector("img");
             mudapospersbaixo();
             limpaarea();
+            atualizainventario()
         }
     }
 }
@@ -159,6 +156,7 @@ function movesquerda(){
             imgboneco.src = "trans.png"
             mudapospersesq();
             limpaarea();
+            atualizainventario()
         }
     }
 }
@@ -175,7 +173,8 @@ function movdireita() {
             var imgboneco = blocopers.querySelector("img");
             imgboneco.src = "trans.png"
             mudapospersdir();
-            limpaarea()
+            limpaarea();
+            atualizainventario();
 
         }
     }
