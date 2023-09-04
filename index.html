@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="rpg.css">
-  <title>Objeto Movimentação</title>
+  <title>As Aventuras de Geribaldo</title>
 
 </head>
 <body>
 
-  <div class="botoes">
+  <div class="botoes" id="btns">
     <button class="btnseta" id="btnsetaesquerda" onclick="movesquerda()">↤</button>
     <button class="btnseta" id="btnsetadireita" onclick="movdireita()">↦</button>
     <button class="btnseta" id="btnsetacima" onclick="movcima()">↥</button>
@@ -17,8 +17,9 @@
   </div>
   <br>
   <div class="conteudo">
-    <div class="inventario" id="inventario" style="color: lightgray; font-family: 'Times New Roman'; font-size: 30px; font-weight: 100px">
-
+    <div class="inventario" id="inventario" style="color: lightgray; font-family: 'Times New Roman'; font-size: 30px;">
+      Espada longa europeia <br>
+      Poções de cura: 0
     </div>
     <div class="mapa">
       <table class="tabelamovimento">
@@ -37,8 +38,8 @@
         </script>
       </table>
     </div>
-    <div class="inventario" id="texto">
-
+    <div class="inventario" id="texto" style="color: lightgray; font-family: 'Times New Roman'; font-size: 30px;">
+      Você está em uma dungeon, seu objetivo é matar o boss e pegar o tesouro no baú que está escondino nela, você irá enfrentar inimigos pelo caminho, então, boa sorte aventureiro.
     </div>
   </div>
   <script src="rpg.js"></script>
@@ -46,11 +47,13 @@
   <br>
   <div class="combate" id="combate" >
     <div class ="botoescombate" id="btnscombate">
-      <button class="btncombate">Atacar</button>
-      <button class="btncombate">Defender</button>
-      <button class="btncombate">Curar-se</button>
+      <button class="btncombate" onclick="ataque()">Atacar</button>
+      <button class="btncombate" onclick="defesa()">Defender</button>
+      <button class="btncombate" onclick="curase()">Curar-se</button>
     </div>
-    <div class="combtext" id="combtext" style="color: lightgray; font-family: 'Times New Roman'; font-size: 20px; font-weight: 100px">
+    <div class="combtext" id="combtext" style="color: lightgray; font-family: 'Times New Roman'; font-size: 35px;">
+        Vida inimigo: 20 <br>
+        Vida personagem: 100
 
     </div>
   </div>

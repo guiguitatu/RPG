@@ -5,6 +5,7 @@ body {
     height: 100vh;
     background-color: #f0f0f0;
     align-items: center;
+    background-image: url("fundo.png");
 }
   
 .container {
@@ -35,16 +36,18 @@ body {
     padding: 0;
     width: 43px;
     height: 43px;
+
 }
 
 .mapa {
     width: 1000px;
     height: 660px;
-    background-image: url("mapapixel.png");
+    background-image: url("mapapixel2.png");
+    border-bottom: solid 10px #000;
 }
 
 .combate{
-    visibility: visible;
+    visibility: collapse;
     background-image: url("fundocombate.png");
     width: 700px;
     height: 400px;
@@ -93,12 +96,24 @@ body {
     background-color: transparent;
     cursor: pointer;
 }
+
+.botoescombate{
+    width: 700px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    border-bottom: solid 5px #b4b4b4;
+}
+
 .btncombate{
     background-color: #39241b;
     color: rgb(179, 177, 177);
-    width: 100px;
-    height: 40px;
+    width: 150px;
+    height: 50px;
     border: solid 3px;
     border-radius: 10px;
     border-color: rgb(165, 164, 164);
+    margin: 10px;
 }
