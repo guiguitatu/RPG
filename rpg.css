@@ -13,34 +13,51 @@ body {
 
 .tabelamovimento{
     width: 875px;
-    height: 524px;
+    height: 500px;
 
 }
 
 .fog{
     padding: 0;
     width: 43px;
-    height: 42px;
-    /*margin: 2px 0 5px 0;*/
+    height: 43px;
 }
 
 .mapa {
-    padding: 51px 0 0 50px;
     width: 1000px;
-    height: 617px;
-    background-image: url("https://as1.ftcdn.net/v2/jpg/05/06/27/22/1000_F_506272232_1LkYDKZJ0Rh1FHSteNj91rd3aILMKK2a.jpg");
+    height: 660px;
+    background-image: url("mapapixel.png");
 }
 
+.combate{
+    background-image: url("fundocombate.png");
+    width: 700px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.combtext{
+    display: flex;
+    width: 700px;
+    height: 200px;
+    justify-content: center;
+    text-align: center;
+}
+
+
+
 .botoes{
+    background-image: url("fundobotao.png");
     display: flex;
     flex-direction: row;
     justify-content:center;
     align-items: flex-start;
     width: 300px;
-    height: 80px;
-    background-color: blueviolet;
-    border-radius: 20px;
-    padding-top: 20px;
+    height: 65px;
+    margin-top: 10px;
+    padding-top: 15px;
 }
 .object {
     justify-content: center;

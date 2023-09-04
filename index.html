@@ -10,31 +10,40 @@
 <body>
 
   <div class="botoes">
-  <button class="btnseta" id="btnsetaesquerda" onclick="movesquerda()">↤</button>
-  <button class="btnseta" id="btnsetadireita" onclick="movdireita()">↦</button>
-  <button class="btnseta" id="btnsetacima" onclick="movcima()">↥</button>
-  <button class="btnseta" id="btnsetabaixo" onclick="movbaixo()">↧</button>
+    <button class="btnseta" id="btnsetaesquerda" onclick="movesquerda()">↤</button>
+    <button class="btnseta" id="btnsetadireita" onclick="movdireita()">↦</button>
+    <button class="btnseta" id="btnsetacima" onclick="movcima()">↥</button>
+    <button class="btnseta" id="btnsetabaixo" onclick="movbaixo()">↧</button>
   </div>
   <br>
-  <div class="mapa">
-<!--    <div class="container">-->
-<!--      <div class="object" id="movableObject"><img src="personagem2.png"></div>-->
-<!--    </div>-->
-  <table class="tabelamovimento">
-    <script>
-      for(i=0; i<12; i++) {
-        document.write("<tr>")
-        for(j=0; j<20; j++) {
-          if (i === 6 && j === 1) {
-            document.write(`<td class="fog" id="mapa(${i},${j})"><img src="personagem3.png" alt="personagem" id="bloco(${i},${j})"></td>`);
-          } else {
-            document.write(`<td class="fog" id="mapa(${i},${j})"><img src="fumaca.png" alt="fog" id="bloco(${i},${j})"></td>`)
+  <div class="conteudo">
+    <div class="inventario" id="inventario">
+
+    </div>
+    <div class="mapa">
+      <table class="tabelamovimento">
+        <script>
+          for(i=0; i<14; i++) {
+            document.write("<tr>")
+            for(j=0; j<22; j++) {
+              if (i === 7 && j === 2) {
+                document.write(`<td class="fog" id="mapa(${i},${j})"><img src="personagem3.png" alt="personagem" id="bloco(${i},${j})"></td>`);
+              } else {
+                document.write(`<td class="fog" id="mapa(${i},${j})"><img src="fumaca.png" alt="fog" id="bloco(${i},${j})"></td>`)
+              }
+            }
+            document.write("</tr>")
           }
-        }
-        document.write("</tr>")
-      }
-    </script>
-  </table>
+        </script>
+      </table>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="combate" id="combate">
+    <div class="combtext" id="combtext">
+      <p>teste</p>
+    </div>
   </div>
   <script src="rpg.js"></script>
 </body>
