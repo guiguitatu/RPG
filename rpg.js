@@ -134,7 +134,7 @@ function ataque(){
     atacou = false;
     if (miniboss === true) {
         ataqueminiboss()
-    } else if (encontrouboss === false){
+    } else if (encontrouboss !== false){
         let text = document.getElementById("texto")
         let divcombate = document.getElementById("combate")
         let txtcomb = document.getElementById("combtext")
