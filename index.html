@@ -17,7 +17,7 @@
   </div>
   <br>
   <div class="conteudo">
-    <div class="inventario" id="inventario" style="color: lightgray; font-family: 'Times New Roman'; font-size: 30px;">
+    <div class="inventario" id="inventario" style="color: lightgray; font-size: 30px;">
       Espada longa europeia <br>
       Poções de cura: 0
     </div>
@@ -38,7 +38,7 @@
         </script>
       </table>
     </div>
-    <div class="inventario" id="texto" style="color: lightgray; font-family: 'Times New Roman'; font-size: 30px;">
+    <div class="inventario" id="texto" style="color: lightgray; font-size: 30px;">
       Você está em uma dungeon, seu objetivo é matar o boss e pegar o tesouro no baú que está escondino nela, você irá enfrentar inimigos pelo caminho, então, boa sorte aventureiro.
     </div>
   </div>
@@ -47,11 +47,11 @@
   <br>
   <div class="combate" id="combate" >
     <div class ="botoescombate" id="btnscombate">
-      <button class="btncombate" onclick="ataque()">Atacar</button>
-      <button class="btncombate" onclick="defesa()">Defender</button>
-      <button class="btncombate" onclick="curase()">Curar-se</button>
+      <button class="btncombate" onclick="ataque()" id="btnataque">Atacar</button>
+      <button class="btncombate" onclick="defesa()" id="btndefesa">Defender</button>
+      <button class="btncombate" onclick="curase()" id="btncura">Curar-se</button>
     </div>
-    <div class="combtext" id="combtext" style="color: lightgray; font-family: 'Times New Roman'; font-size: 35px;">
+    <div class="combtext" id="combtext" style="color: lightgray; font-size: 35px;">
         Vida inimigo: 20 <br>
         Vida personagem: 100
 

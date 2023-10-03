@@ -12,6 +12,9 @@ body {
  display: flex;
 }
 
+.btnsataque {
+    visibility: visible;
+}
 
 .conteudo {
     display: flex;

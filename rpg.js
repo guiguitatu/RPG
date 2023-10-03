@@ -125,21 +125,43 @@ function mudapospersdir() {
 }
 
 function combate(){
+    // let combtxt = document.getElementById("combtext");
     mover = false;
     let divcombate = document.getElementById("combate");
+    // if ([posypers][blocodir] === 4 || [posypers][blocoesq] === 4 || [blococima][posxpers] === 4 || [blocobaixo][posxpers] === 4){
+    //     combtxt.innerHTML = `
+    //     Vida do inimigo: 20 <br>
+    //     Vida personagem: ${vidapers} <br>
+    //     `
+    // } else if ([posypers][blocodir] === 7 || [posypers][blocoesq] === 7 || [blococima][posxpers] === 7 || [blocobaixo][posxpers] === 7){
+    //     combtxt.innerHTML = `
+    //     Vida do mini-boss: 40 <br>
+    //     Vida personagem: ${vidapers} <br>
+    //     `
+    // } else if ([posypers][blocodir] === 5 || [posypers][blocoesq] === 5 || [blococima][posxpers] === 5 || [blocobaixo][posxpers] === 5){
+    //     combtxt.innerHTML = `
+    //     Vida do boss: 100 <br>
+    //     Vida personagem: ${vidapers} <br>
+    //     `
+    // }
     divcombate.style.visibility = "visible";
+
 }
 
 function ataque(){
+    let text = document.getElementById("texto");
+    let divcombate = document.getElementById("combate");
+    let txtcomb = document.getElementById("combtext");
+    let btnsataque = document.getElementById("btnscombate");
     atacou = false;
+    btnsataque.style.visibility = "collapse";
     if (miniboss === true) {
         ataqueminiboss()
     } else if (encontrouboss !== false){
-        let text = document.getElementById("texto")
-        let divcombate = document.getElementById("combate")
-        let txtcomb = document.getElementById("combtext")
         text.innerHTML = "Um inimigo, derrote-o para prosseguir com sua jornada."
+        btnsataque.style.visibility = "collapse";
         rolard20();
+
         if (d20 > defesainimigo && atacou !== true) {
             rolard6();
             danopers = d6 + 5;
@@ -241,14 +263,17 @@ function ataque(){
     } else {
         ataqueboss()
     }
+    btnsataque.style.visibility = "visible";
 }
 
 function ataqueboss(){
-    let text = document.getElementById("texto")
-    let divcombate = document.getElementById("combate")
-    let txtcomb = document.getElementById("combtext")
+    let text = document.getElementById("texto");
+    let divcombate = document.getElementById("combate");
+    let txtcomb = document.getElementById("combtext");
+    let btnsataque = document.getElementById("btnscombate");
     text.innerHTML = "Um inimigo, derrote-o para prosseguir com sua jornada."
     rolard20();
+    btnsataque.style.visibility = "collapse";
     if (d20 > defesaboss && atacou !== true) {
         rolard6();
         danopers = d6 + 10;
@@ -350,15 +375,18 @@ function ataqueboss(){
             atacou = true;
         }
     }, 2000)
+    btnsataque.style.visibility = "visible";
 }
 
 function ataqueminiboss(){
     atacou = false;
-    let text = document.getElementById("texto")
-    let divcombate = document.getElementById("combate")
-    let txtcomb = document.getElementById("combtext")
+    let text = document.getElementById("texto");
+    let divcombate = document.getElementById("combate");
+    let txtcomb = document.getElementById("combtext");
+    let btnsataque = document.getElementById("btnscombate");
     text.innerHTML = "O miniboss, derrote-o para prosseguir com sua jornada."
     rolard20();
+    btnsataque.style.visibility = "collapse";
     if (d20 > defesamini && atacou !== true) {
         rolard6();
         danopers = d6 + 10;
@@ -468,7 +496,7 @@ function ataqueminiboss(){
             }
         }
     }, 2000)
-
+    btnsataque.style.visibility = "visible";
 }
 
 function defesa() {
@@ -649,26 +677,26 @@ function limpaarea(){
     verposic();
     if (blococima >= 0 && blococima < 14) {
         console.log("Bloco cima: " + blococima)
-        var quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
-        var imgcima = quacima.querySelector("img");
+        let quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
+        let imgcima = quacima.querySelector("img");
         imgcima.src = "trans.png";
     }
     if (blocobaixo >= 0 && blocobaixo < 14) {
         console.log("Bloco baixo: " + blocobaixo)
-        var quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
-        var imgbaixo = quabaixo.querySelector("img");
+        let quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
+        let imgbaixo = quabaixo.querySelector("img");
         imgbaixo.src = "trans.png";
     }
     if (blocoesq > 0 && blocoesq < 19) {
         console.log("Bloco esquerda: " + blocoesq)
-        var quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
-        var imgesq = quaesq.querySelector("img");
+        let quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
+        let imgesq = quaesq.querySelector("img");
         imgesq.src = "trans.png";
     }
     if (blocodir > 0 && blocodir < 19) {
         console.log("Bloco direita: " + blocodir)
-        var quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
-        var imgdir = quadir.querySelector("img");
+        let quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
+        let imgdir = quadir.querySelector("img");
         imgdir.src = "trans.png";
     }
 }
@@ -676,30 +704,30 @@ function limpainimigo(){
     verposic();
     if (blococima >= 0 && blococima < 11) {
         console.log("Bloco cima: " + blococima)
-        var quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
+        let quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
         mapa[blococima][posxpers] = 0;
-        var imgcima = quacima.querySelector("img");
+        let imgcima = quacima.querySelector("img");
         imgcima.src = "trans.png";
     }
     if (blocobaixo >= 0 && blocobaixo < 11) {
         console.log("Bloco baixo: " + blocobaixo)
-        var quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
+        let quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
         mapa[blocobaixo][posypers] = 0;
-        var imgbaixo = quabaixo.querySelector("img");
+        let imgbaixo = quabaixo.querySelector("img");
         imgbaixo.src = "trans.png";
     }
     if (blocoesq > 0 && blocoesq < 19) {
         console.log("Bloco esquerda: " + blocoesq)
-        var quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
+        let quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
         mapa[posypers][blocoesq] = 0;
-        var imgesq = quaesq.querySelector("img");
+        let imgesq = quaesq.querySelector("img");
         imgesq.src = "trans.png";
     }
     if (blocodir > 0 && blocodir < 19) {
         console.log("Bloco direita: " + blocodir)
-        var quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
+        let quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
         mapa[posypers][blocodir] = 0;
-        var imgdir = quadir.querySelector("img");
+        let imgdir = quadir.querySelector("img");
         imgdir.src = "trans.png";
     }
 }
@@ -711,15 +739,15 @@ function movcima(){
         verposic();
         if (mapa[blococima][posxpers] === 0 || mapa[blococima][posxpers] === 2) {
             console.log(`bloco(${blococima},${posxpers})`)
-            var blocomuda = document.getElementById(`mapa(${blococima},${posxpers})`);
+            let blocomuda = document.getElementById(`mapa(${blococima},${posxpers})`);
             const imagem = blocomuda.querySelector("img");
             imagem.src = "personagem3.png";
-            var blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
-            var imgboneco = blocopers.querySelector("img");
+            let blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
+            let imgboneco = blocopers.querySelector("img");
             imgboneco.src = "trans.png"
             mudaposperscima();
             limpaarea();
-            atualizainventario()
+            atualizainventario();
         } else if (mapa[blococima][posxpers] === 1) {
             let text = document.getElementById("texto");
             text.innerHTML = "Você não pode andar para essa posição, há uma parede ou um objeto impedindo-o de andar até esse lugar.";
@@ -837,7 +865,7 @@ function movbaixo() {
             combate();
         } else if (mapa[blocobaixo][posxpers] === 9) {
             let bau = document.getElementById(`mapa(${blocobaixo},${posxpers})`)
-            let imgbau = bau.querySelector("img")
+            let imgbau = bau.querySelector("img");
 
             imgbau.src = "baufechado.png"
             if (chavebau !== true) {
