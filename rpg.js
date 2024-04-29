@@ -124,26 +124,41 @@ function mudapospersdir() {
     posxpers +=1;
 }
 
+function resetapagina() {
+    if (cont >= 3 && cont <= 5) {
+        text.innerHTML = "Já disse pra você terminar a ação antes de andar";
+        alert("Termine a ação");
+    } else if (cont >= 6 && cont <= 8) {
+        text.innerHTML = "Estou avisando, se continuar a tentar andar eu vou recarregar a página...";
+        alert("Termine a ação");
+    } else if (cont === 9) {
+        text.innerHTML = "Último aviso, se você tentar andar novamente serei forçado a recarregar a página...";
+        alert("Termine a ação");
+    } else if (cont > 9) {
+        text.innerHTML = "Já era, estou recarregando a página...";
+        alert("Termine a ação");
+}
+
 function combate(){
-    // let combtxt = document.getElementById("combtext");
+    let combtxt = document.getElementById("combtext");
     mover = false;
     let divcombate = document.getElementById("combate");
-    // if ([posypers][blocodir] === 4 || [posypers][blocoesq] === 4 || [blococima][posxpers] === 4 || [blocobaixo][posxpers] === 4){
-    //     combtxt.innerHTML = `
-    //     Vida do inimigo: 20 <br>
-    //     Vida personagem: ${vidapers} <br>
-    //     `
-    // } else if ([posypers][blocodir] === 7 || [posypers][blocoesq] === 7 || [blococima][posxpers] === 7 || [blocobaixo][posxpers] === 7){
-    //     combtxt.innerHTML = `
-    //     Vida do mini-boss: 40 <br>
-    //     Vida personagem: ${vidapers} <br>
-    //     `
-    // } else if ([posypers][blocodir] === 5 || [posypers][blocoesq] === 5 || [blococima][posxpers] === 5 || [blocobaixo][posxpers] === 5){
-    //     combtxt.innerHTML = `
-    //     Vida do boss: 100 <br>
-    //     Vida personagem: ${vidapers} <br>
-    //     `
-    // }
+    if ([posypers][blocodir] === 4 || [posypers][blocoesq] === 4 || [blococima][posxpers] === 4 || [blocobaixo][posxpers] === 4){
+        combtxt.innerHTML = `
+        Vida do inimigo: 20 <br>
+        Vida personagem: ${vidapers} <br>
+        `
+    } else if ([posypers][blocodir] === 7 || [posypers][blocoesq] === 7 || [blococima][posxpers] === 7 || [blocobaixo][posxpers] === 7){
+        combtxt.innerHTML = `
+        Vida do mini-boss: 40 <br>
+        Vida personagem: ${vidapers} <br>
+        `
+    } else if ([posypers][blocodir] === 5 || [posypers][blocoesq] === 5 || [blococima][posxpers] === 5 || [blocobaixo][posxpers] === 5){
+        combtxt.innerHTML = `
+        Vida do boss: 100 <br>
+        Vida personagem: ${vidapers} <br>
+        `
+    }
     divcombate.style.visibility = "visible";
 
 }
@@ -157,7 +172,7 @@ function ataque(){
     btnsataque.style.visibility = "collapse";
     if (miniboss === true) {
         ataqueminiboss()
-    } else if (encontrouboss !== false){
+    } else if (encontrouboss === false){
         text.innerHTML = "Um inimigo, derrote-o para prosseguir com sua jornada."
         btnsataque.style.visibility = "collapse";
         rolard20();
@@ -271,7 +286,7 @@ function ataqueboss(){
     let divcombate = document.getElementById("combate");
     let txtcomb = document.getElementById("combtext");
     let btnsataque = document.getElementById("btnscombate");
-    text.innerHTML = "Um inimigo, derrote-o para prosseguir com sua jornada."
+    text.innerHTML = "Um inimigo, derrote- o para prosseguir com sua jornada."
     rolard20();
     btnsataque.style.visibility = "collapse";
     if (d20 > defesaboss && atacou !== true) {
@@ -322,6 +337,7 @@ function ataqueboss(){
         limpainimigo();
         mover = true;
         chavebau = true;
+        btnsataque.style.visibility = "collapse";
 
     }
     setTimeout(function () {
@@ -437,6 +453,7 @@ function ataqueminiboss(){
         mover = true;
         chaveboss = true
         miniboss = false;
+        btnsataque.style.visibility = "collapse";
 
     }
     setTimeout(function() {
@@ -802,24 +819,7 @@ function movcima(){
 
         }
     } else {
-        let text = document.getElementById("texto");
-        cont++;
-        text.innerHTML = `
-        Termine de realizar a ação antes de conseguir andar
-        `
-        if (cont >= 3 && cont <= 5){
-            text.innerHTML = "Já disse pra você terminar a ação antes de andar"
-        } else if (cont >= 6 && cont <= 8){
-            text.innerHTML = "Estou avisando, se continuar a tentar andar eu vou recarregar a página..."
-        } else if ( cont === 9){
-            text.innerHTML = "Último aviso, se você tentar andar novamente serei forçado a recarregar a página..."
-        } else if ( cont > 9) {
-            text.innerHTML = "Já era, estou recarregando a página..."
-
-            setTimeout(function() {
-                location.reload();
-                }, 2000);
-        }
+        resetapagina();
     }
 }
 
@@ -892,24 +892,7 @@ function movbaixo() {
 
         }
     } else {
-        let text = document.getElementById("texto");
-        cont++;
-        text.innerHTML = `
-        Termine de realizar a ação antes de conseguir andar
-        `
-        if (cont >= 3 && cont <= 5){
-            text.innerHTML = "Já disse pra você terminar a ação antes de andar"
-        } else if (cont >= 6 && cont <= 8){
-            text.innerHTML = "Estou avisando, se continuar a tentar andar eu vou recarregar a página..."
-        } else if ( cont === 9){
-            text.innerHTML = "Último aviso, se você tentar andar novamente serei forçado a recarregar a página..."
-        } else if ( cont > 9) {
-            text.innerHTML = "Já era, estou recarregando a página..."
-
-            setTimeout(function() {
-                location.reload();
-            }, 2000);
-        }
+        resetapagina();
     }
 }
 function movesquerda(){
@@ -983,24 +966,7 @@ function movesquerda(){
 
         }
     } else {
-        let text = document.getElementById("texto");
-        cont++;
-        text.innerHTML = `
-        Termine de realizar a ação antes de conseguir andar
-        `
-        if (cont >= 3 && cont <= 5){
-            text.innerHTML = "Já disse pra você terminar a ação antes de andar"
-        } else if (cont >= 6 && cont <= 8){
-            text.innerHTML = "Estou avisando, se continuar a tentar andar eu vou recarregar a página..."
-        } else if ( cont === 9){
-            text.innerHTML = "Último aviso, se você tentar andar novamente serei forçado a recarregar a página..."
-        } else if ( cont > 9) {
-            text.innerHTML = "Já era, estou recarregando a página..."
-
-            setTimeout(function() {
-                location.reload();
-            }, 2000);
-        }
+        resetapagina()
     }
 }
 
@@ -1030,10 +996,9 @@ function movdireita() {
             vidainimigo = 20;
             combate();
 
-        }
-        else if (mapa[posypers][blocodir] === 6){
-            if (chaveboss === true){
-                if (animporta === false){
+        } else if (mapa[posypers][blocodir] === 6) {
+            if (chaveboss === true) {
+                if (animporta === false) {
                     text.innerHTML = "Voce coloca a chave, e com um arrepio gira ela, a porta faz um barulho estranho, como se algo estivesse estranho, esse sentimeto se acumula... mas você continua em frente."
                     animporta = true;
                 } else {
@@ -1043,15 +1008,14 @@ function movdireita() {
                 text.innerHTML = "Você não possui a chave para a sala do boss, encontre-a"
             }
 
-        }
-        else if (mapa[posypers][blocodir] === 5){
+        } else if (mapa[posypers][blocodir] === 5) {
             let inimigo = document.getElementById(`mapa(${posypers},${blocodir})`);
             const imagem = inimigo.querySelector("img");
             imagem.src = "boss.png"
             text.innerHTML = "Você encontrou o boss, agora prepare-se para a luta."
             combate()
 
-        } else if (mapa[posypers][blocodir] === 7){
+        } else if (mapa[posypers][blocodir] === 7) {
             miniboss = true;
             imginimigo.src = "miniboss.png"
             text.innerHTML = "Você me achou, e se quer enfrentar o boss, vai ter que pegar a chave que está comigo, ha ha ha..."
@@ -1069,15 +1033,15 @@ function movdireita() {
                 imgbau.src = "bautesouro.png"
                 text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Recarregando a página"
                 alert("Você finalizou o game")
-                setTimeout(function(){
+                setTimeout(function () {
                     location.reload()
                 }, 5000)
             }
-        } else if (mapa[posypers][blocodir] === 3){
+        } else if (mapa[posypers][blocodir] === 3) {
             let pocao = document.getElementById(`mapa(${posypers},${blocodir})`)
             let imgpocao = pocao.querySelector("img")
             imgpocao.src = "pocao.png"
-            setTimeout( function(){
+            setTimeout(function () {
                 cura += 1
                 imgpocao.src = "trans.png"
             }, 2000)
@@ -1085,25 +1049,9 @@ function movdireita() {
 
         }
     } else {
-
-        cont++;
-        text.innerHTML = `
-        Termine de realizar a ação antes de conseguir andar
-        `
-        if (cont >= 3 && cont <= 5) {
-            text.innerHTML = "Já disse pra você terminar a ação antes de andar"
-        } else if (cont >= 6 && cont <= 8) {
-            text.innerHTML = "Estou avisando, se continuar a tentar andar eu vou recarregar a página..."
-        } else if (cont === 9) {
-            text.innerHTML = "Último aviso, se você tentar andar novamente serei forçado a recarregar a página..."
-        } else if (cont > 9) {
-            text.innerHTML = "Já era, estou recarregando a página..."
-
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }
+        resetapagina();
     }
+}
 }
 
 
