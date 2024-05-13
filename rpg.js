@@ -77,7 +77,9 @@ function verposic(){
 function rolard20(){
     d20 = Math.floor((Math.random() * 20) + 1);
     console.log(`Você tirou ${d20} no D20`)
-}function crit(){
+}
+
+function crit(){
     d20crit = Math.floor((Math.random() * 20) + 1);
     console.log(`Você tirou ${d20} no D20`)
 }
@@ -137,6 +139,7 @@ function resetapagina() {
     } else if (cont > 9) {
         text.innerHTML = "Já era, estou recarregando a página...";
         alert("Termine a ação");
+    }
 }
 
 function combate(){
@@ -169,12 +172,13 @@ function ataque(){
     let txtcomb = document.getElementById("combtext");
     let btnsataque = document.getElementById("btnscombate");
     atacou = false;
-    btnsataque.style.visibility = "collapse";
+    btnsataque.style.visibility = "hidden";
+    btnsataque.style.display = "none";
     if (miniboss === true) {
         ataqueminiboss()
     } else if (encontrouboss === false){
         text.innerHTML = "Um inimigo, derrote-o para prosseguir com sua jornada."
-        btnsataque.style.visibility = "collapse";
+        btnsataque.style.visibility = "hidden";
         rolard20();
 
         if (d20 > defesainimigo && atacou !== true) {
@@ -221,10 +225,10 @@ function ataque(){
         }
         if (vidainimigo <= 0) {
             text.innerHTML = "Você derrotou o inimigo, agora prossiga com sua jornada através da dungeon para achar o tesouro.";
-            divcombate.style.visibility = "collapse";
             limpainimigo();
             mover = true;
         }
+        btnsataque.style.visibility = "hidden";
         setTimeout(function () {
             atacou = false;
             rolard20();
@@ -274,6 +278,7 @@ function ataque(){
                 O inimigo errou o ataque, prepare o seu agora.
                 `
             }
+            btnsataque.style.display = "flex";
         }, 2000)
     } else {
         ataqueboss()
@@ -356,6 +361,7 @@ function ataqueboss(){
             if (vidapers < 0){
                 morreu();
             }
+            btnsataque.style.display = "block";
             atacou = true;
         } else if (d20 === 1 && atacou !== true) {
             rolard6();
@@ -368,6 +374,7 @@ function ataqueboss(){
                 O inimigo tirou 1 no D20 e caiu de cara no chão dando ${danoboss} pontos de dano em si mesmo, prepare seu ataque agora.
                 `
             atacou = true;
+            btnsataque.style.display = "block";
         } else if (d20 === 20 && atacou !== true) {
             rolard20();
             danoboss = d20 * 2;
@@ -389,6 +396,7 @@ function ataqueboss(){
                 O inimigo errou o ataque, prepare o seu agora.
                 `
             atacou = true;
+            btnsataque.style.display = "block";
         }
     }, 2000)
     btnsataque.style.visibility = "visible";
@@ -451,7 +459,7 @@ function ataqueminiboss(){
         divcombate.style.visibility = "collapse";
         limpainimigo();
         mover = true;
-        chaveboss = true
+        chaveboss = true;
         miniboss = false;
         btnsataque.style.visibility = "collapse";
 
@@ -808,9 +816,11 @@ function movcima(){
                 }, 5000)
             }
         } else if (mapa[blococima][posxpers] === 3){
-            let pocao = document.getElementById(`mapa(${posypers},${blocoesq})`)
+            let pocao = document.getElementById(`mapa(${blococima},${posxpers})`)
             let imgpocao = pocao.querySelector("img")
             imgpocao.src = "pocao.png"
+            console.log(mapa[blococima][posxpers])
+            mapa[blococima][posxpers] = 0
             setTimeout( function(){
                 cura += 1
                 imgpocao.src = "trans.png"
@@ -884,6 +894,7 @@ function movbaixo() {
             let pocao = document.getElementById(`mapa(${posypers},${blocoesq})`)
             let imgpocao = pocao.querySelector("img")
             imgpocao.src = "pocao.png"
+            mapa[blocobaixo][posxpers] = 0
             setTimeout( function(){
                 cura += 1
                 imgpocao.src = "trans.png"
@@ -958,9 +969,11 @@ function movesquerda(){
             let pocao = document.getElementById(`mapa(${posypers},${blocoesq})`)
             let imgpocao = pocao.querySelector("img")
             imgpocao.src = "pocao.png"
+            mapa[posypers][blocoesq] = 0
             setTimeout( function(){
                 cura += 1
                 imgpocao.src = "trans.png"
+                mapa[posypers][blocoesq] === 0;
             }, 2000)
 
 
@@ -982,7 +995,7 @@ function movdireita() {
             imagem.src = "personagem3.png";
             var blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
             var imgboneco = blocopers.querySelector("img");
-            imgboneco.src = "trans.png"
+            imgboneco.src = "trans.png";
             mudapospersdir();
             limpaarea();
             atualizainventario();
@@ -1041,6 +1054,7 @@ function movdireita() {
             let pocao = document.getElementById(`mapa(${posypers},${blocodir})`)
             let imgpocao = pocao.querySelector("img")
             imgpocao.src = "pocao.png"
+            mapa[posypers][blocodir] = 0
             setTimeout(function () {
                 cura += 1
                 imgpocao.src = "trans.png"
@@ -1052,6 +1066,7 @@ function movdireita() {
         resetapagina();
     }
 }
+
+function teste(){
+    console.log("teste")
 }
-
-
