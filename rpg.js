@@ -225,61 +225,63 @@ function ataque(){
         }
         if (vidainimigo <= 0) {
             text.innerHTML = "Você derrotou o inimigo, agora prossiga com sua jornada através da dungeon para achar o tesouro.";
+            vidainimigo = 20;
             limpainimigo();
             mover = true;
+            divcombate.style.display= "none";
         }
         btnsataque.style.visibility = "hidden";
-        setTimeout(function () {
-            atacou = false;
-            rolard20();
-            if (d20 > defesapers && atacou !== true) {
-                rolard6();
-                danoinimigo = d6 + 3;
-                vidapers = vidapers - danoinimigo;
-                txtcomb.innerHTML = `
-                Vida do inimigo: ${vidainimigo} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo te acertou, dando ${danoinimigo} pontos de dano.
-                `
-                atacou = true;
-                if (vidapers < 0){
-                    morreu();
-                }
-            } else if (d20 === 1 && atacou !== true) {
-                rolard6();
-                danoinimigo = d6;
-                vidainimigo = vidainimigo - d6;
-                txtcomb.innerHTML = `
-                Vida do inimigo: ${vidainimigo} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
-                `
-                atacou = true;
-            } else if (d20 === 20 && atacou !== true) {
+            setTimeout(function () {
+                atacou = false;
                 rolard20();
-                danoinimigo = d20;
-                txtcomb.innerHTML = `
-                Vida do inimigo: ${vidainimigo} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
-                `
-                atacou = true;
-                if (vidapers < 0){
-                    morreu();
+                if (d20 > defesapers && atacou !== true) {
+                    rolard6();
+                    danoinimigo = d6 + 3;
+                    vidapers = vidapers - danoinimigo;
+                    txtcomb.innerHTML = `
+                    Vida do inimigo: ${vidainimigo} <br>
+                    Vida do personagem:${vidapers} <br>
+                    Número rolado no D20: ${d20} <br>
+                    O inimigo te acertou, dando ${danoinimigo} pontos de dano.
+                    `
+                    atacou = true;
+                    if (vidapers < 0){
+                        morreu();
+                    }
+                } else if (d20 === 1 && atacou !== true) {
+                    rolard6();
+                    danoinimigo = d6;
+                    vidainimigo = vidainimigo - d6;
+                    txtcomb.innerHTML = `
+                    Vida do inimigo: ${vidainimigo} <br>
+                    Vida do personagem:${vidapers} <br>
+                    Número rolado no D20: ${d20} <br>
+                    O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
+                    `
+                    atacou = true;
+                } else if (d20 === 20 && atacou !== true) {
+                    rolard20();
+                    danoinimigo = d20;
+                    txtcomb.innerHTML = `
+                    Vida do inimigo: ${vidainimigo} <br>
+                    Vida do personagem:${vidapers} <br>
+                    Número rolado no D20: ${d20} <br>
+                    O inimigo critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
+                    `
+                    atacou = true;
+                    if (vidapers < 0){
+                        morreu();
+                    }
+                } else {
+                    txtcomb.innerHTML = `
+                    Vida do inimigo: ${vidainimigo} <br>
+                    Vida do personagem:${vidapers} <br>
+                    Número rolado no D20: ${d20} <br>
+                    O inimigo errou o ataque, prepare o seu agora.
+                    `
                 }
-            } else {
-                txtcomb.innerHTML = `
-                Vida do inimigo: ${vidainimigo} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo errou o ataque, prepare o seu agora.
-                `
-            }
-            btnsataque.style.display = "flex";
-        }, 2000)
+                btnsataque.style.display = "flex";
+            }, 2000)
     } else {
         ataqueboss()
     }
@@ -1059,8 +1061,6 @@ function movdireita() {
                 cura += 1
                 imgpocao.src = "trans.png"
             }, 2000)
-
-
         }
     } else {
         resetapagina();
