@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    document.body.style.transform = "scale(0.8)";
+    document.body.style.transformOrigin = "0 0";
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8">
+  <link rel="stylesheet" href="rpg.css">
+  <script src="rpg.js"></script>
+  <script>
+      function mudatexto(){
+        document.getElementById("texto").innerHTML = "teste"
+      }
+  </script>
+  <title>As Aventuras de Geribaldo</title>
+
+</head>
+<body>
+
+  <div class="botoes" id="btns">
+    <button class="btnseta" id="btnsetaesquerda" onclick="anda('esquerda')">↤</button>
+    <button class="btnseta" id="btnsetadireita" onclick="anda('direita')">↦</button>
+    <button class="btnseta" id="btnsetacima" onclick="anda('cima')">↥</button>
+    <button class="btnseta" id="btnsetabaixo" onclick="anda('baixo')">↧</button>
+  </div>
+  <br>
+  <div class="conteudo">
+    <div class="inventario" id="inventario" style="color: lightgray; font-size: 30px;">
+      Espada longa europeia <br>
+      Poções de cura: 0
+    </div>
+    <div class="mapa">
+      <table class="tabelamovimento">
+        <script>
+          for(i=0; i<14; i++) {
+            document.write("<tr>")
+            for(j=0; j<22; j++) {
+              if (i === 7 && j === 2) {
+                document.write(`<td class="fog" id="mapa(${i},${j})"><img src="personagem3.png" alt="personagem" id="bloco(${i},${j})"></td>`);
+              } else {
+                document.write(`<td class="fog" style="background-color: black" id="mapa(${i},${j})"><img src="fumaca.png" alt="fog" id="bloco(${i},${j})"></td>`)
+              }
+            }
+            document.write("</tr>")
+          }
+        </script>
+      </table>
+    </div>
+    <div class="inventario" id="texto" style="color: lightgray; font-size: 30px;">
+      Você está em uma dungeon, seu objetivo é matar o boss e pegar o tesouro no baú que está escondino nela, você irá enfrentar inimigos pelo caminho, então, boa sorte aventureiro.
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="combate" id="combate" >
+    <div class ="botoescombate" id="btnscombate">
+      <button class="btncombate" onclick="ataque()" id="btnataque">Atacar</button>
+      <button class="btncombate" onclick="defesa()" id="btndefesa">Defender</button>
+      <button class="btncombate" onclick="curase()" id="btncura">Curar-se</button>
+    </div>
+    <div class="combtext" id="combtext" style="color: lightgray; font-size: 35px;">
+        Vida inimigo: 20 <br>
+        Vida personagem: 100
+
+    </div>
+  </div>
+
+</body>
+</html>
