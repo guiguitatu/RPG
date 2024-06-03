@@ -53,7 +53,7 @@ body {
     visibility: collapse;
     background-image: url("fundocombate.png");
     width: 700px;
-    height: 400px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     align-content: center;
