@@ -49,6 +49,29 @@ mapa = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
 
+document.addEventListener('keydown', function(event) {
+    let bool = document.getElementById("btnscombate")
+    if(event.key === "ArrowLeft" || event.key === "a") {
+        anda("esquerda");
+    } else if(event.key === "ArrowRight" || event.key === "d") {
+        anda("direita");
+    } else if(event.key === "ArrowUp" || event.key === "w") {
+        anda("cima");
+    } else if(event.key === "ArrowDown" || event.key === "s") {
+        anda("baixo");
+    }
+
+    if (bool.style.visibility === "visible") {
+        if (event.key === "z") {
+            ataque();
+        } else if (event.key === "x") {
+            defesa();
+        } else if (event.key === "c") {
+            curase();
+        }
+    }
+});
+
 function verposic() {
     if (posypers - 1 >= 0 && posypers - 1 <= 13) {
         blococima = posypers;
@@ -184,6 +207,176 @@ function combate() {
     }
     divcombate.style.visibility = "visible";
     btnscombate.style.visibility = "visible";
+}
+
+function ataqueinimigo() {
+    let text = document.getElementById("texto");
+    let divcombate = document.getElementById("combate");
+    let txtcomb = document.getElementById("combtext");
+    let btnsataque = document.getElementById("btnscombate");
+    let btns = document.getElementById("btns");
+    btnsataque.style.visibility = "collapse";
+    atacou = false;
+    rolard20();
+    if (d20 > defesapers && d20 !== 20 && atacou !== true && tipoinimigo === 4) {
+        rolard6();
+        if (tipoinimigo === 4) {
+            danoinimigo = d6 + 3;
+            vidapers = vidapers - danoinimigo;
+            txtcomb.innerHTML = `
+                Vida do inimigo: ${vidainimigo} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O inimigo te acertou, dando ${danoinimigo} pontos de dano.
+                `
+        } else if (tipoinimigo === 7) {
+            danoinimigo = d6 + 3;
+            vidapers = vidapers - danoinimigo;
+            txtcomb.innerHTML = `
+                Vida do miniboss: ${vidaminiboss} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O miniboss te acertou, dando ${danoinimigo} pontos de dano.
+                `
+        } else if (tipoinimigo === 5) {
+            danoinimigo = d6 + 5;
+            vidapers = vidapers - danoinimigo;
+            txtcomb.innerHTML = `
+                Vida do boss: ${vidaboss} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O boss te acertou, dando ${danoinimigo} pontos de dano.
+                `
+        } else txtcomb.innerHTML = "não sei o que aconteceu"
+        atacou = true;
+        if (vidapers < 0) {
+            morreu();
+        }
+    } else if (d20 === 1 && atacou !== true) {
+        rolard6();
+        if (tipoinimigo === 4) {
+            danoinimigo = d6;
+            vidainimigo = vidainimigo - d6;
+            txtcomb.innerHTML = `
+                Vida do inimigo: ${vidainimigo} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
+                `
+            atacou = true;
+        } else if (tipoinimigo === 7){
+            danoinimigo = d6;
+            vidaminiboss -= d6;
+            txtcomb.innerHTML = `
+                Vida do miniboss: ${vidaminiboss} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O miniboss tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
+                `
+            atacou = true;
+        } else if (tipoinimigo === 5){
+            danoinimigo = d6;
+            vidaboss -= d6;
+            txtcomb.innerHTML = `
+                Vida do Boss: ${vidaboss} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O Boss tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
+                `
+            atacou = true;
+        }
+    } else if (d20 === 20 && atacou !== true) {
+        crit();
+        if (tipoinimigo === 4) {
+            danoinimigo = d20crit;
+            vidapers -= d20crit;
+            txtcomb.innerHTML = `
+                Vida do inimigo: ${vidainimigo} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O inimigo critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
+                `
+            atacou = true;
+        } else if (tipoinimigo === 7){
+            danoinimigo = d20crit;
+            vidapers = vidapers - d20crit;
+            txtcomb.innerHTML = `
+                Vida do miniboss: ${vidaminiboss} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O miniboss critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
+                `
+        } else if (tipoinimigo === 5){
+            danoinimigo = d20crit;
+            vidapers = vidapers - d20crit;
+            txtcomb.innerHTML = `
+                Vida do boss: ${vidaboss} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O boss critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
+                `
+        }
+        if (vidapers < 0) {
+            morreu();
+        }
+    } else {
+        if (tipoinimigo === 4) {
+            txtcomb.innerHTML = `
+                Vida do inimigo: ${vidainimigo} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O inimigo errou o ataque, prepare o seu agora.
+                `
+        } else if (tipoinimigo === 7){
+            txtcomb.innerHTML = `
+                Vida do miniboss: ${vidaminiboss} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O miniboss errou o ataque, prepare o seu agora.
+                `
+        } else if (tipoinimigo === 5){
+            txtcomb.innerHTML = `
+                Vida do boss: ${vidaboss} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O boss errou o ataque, prepare o seu agora.
+                `
+        }
+    }
+    if (vidainimigo <= 0 && tipoinimigo === 4) {
+        text.innerHTML = "Você derrotou o inimigo, agora prossiga com sua jornada através da dungeon para achar o tesouro.";
+        vidainimigo = 20;
+        inimigomorto = false;
+        limpainimigo();
+        mover = true;
+        divcombate.style.visibility = "collapse";
+        btns.style.visibility = "visible";
+        btnsataque.style.visibility = "visible";
+        txtcomb.style.marginTop = "0";
+        tipoinimigo = 0;
+    } else if (vidaminiboss <= 0 && tipoinimigo === 7) {
+        chaveboss = true;
+        text.innerHTML = "Você derrotou o miniboss, agora prossiga com sua jornada através da dungeon para achar boss e pegar a chave para o tesouro.";
+        inimigomorto = false;
+        limpainimigo();
+        mover = true;
+        divcombate.style.visibility = "collapse";
+        btns.style.visibility = "visible";
+        btnsataque.style.visibility = "visible";
+        tipoinimigo = 0;
+    } else if (vidaboss <= 0 && tipoinimigo === 5) {
+        text.innerHTML = "Você derrotou o Boss e obtém a chave para abrir o baú, vá até ele e resgate a sua recompensa";
+        divcombate.style.visibility = "collapse";
+        limpainimigo();
+        inimigomorto = false;
+        mover = true;
+        chavebau = true;
+        divcombate.style.visibility = "collapse";
+        btns.style.visibility = "visible";
+        tipoinimigo = 0;
+    }
+    btnsataque.style.display = "flex";
+    btnsataque.style.visibility = "visible";
 }
 
 function ataque() {
@@ -336,721 +529,119 @@ function ataque() {
         text.innerHTML = "Você derrotou o Boss e obtém a chave para abrir o baú, vá até ele e resgate a sua recompensa";
         divcombate.style.visibility = "collapse";
         limpainimigo();
+        inimigomorto = false;
         mover = true;
         chavebau = true;
         divcombate.style.visibility = "collapse";
         btns.style.visibility = "visible";
-        btnsataque.style.visibility = "visible";
         tipoinimigo = 0;
     }
     btnsataque.style.visibility = "collapse";
     if (inimigomorto) {
         setTimeout(function () {
-            atacou = false;
-            rolard20();
-            if (d20 > defesapers && d20 !== 20 && atacou !== true && tipoinimigo === 4) {
-                rolard6();
-                if (tipoinimigo === 4) {
-                    danoinimigo = d6 + 3;
-                    vidapers = vidapers - danoinimigo;
-                    txtcomb.innerHTML = `
-                        Vida do inimigo: ${vidainimigo} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O inimigo te acertou, dando ${danoinimigo} pontos de dano.
-                        `
-                } else if (tipoinimigo === 7) {
-                    danoinimigo = d6 + 3;
-                    vidapers = vidapers - danoinimigo;
-                    txtcomb.innerHTML = `
-                        Vida do miniboss: ${vidaminiboss} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O miniboss te acertou, dando ${danoinimigo} pontos de dano.
-                        `
-                } else if (tipoinimigo === 5) {
-                    danoinimigo = d6 + 5;
-                    vidapers = vidapers - danoinimigo;
-                    txtcomb.innerHTML = `
-                        Vida do boss: ${vidaboss} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O boss te acertou, dando ${danoinimigo} pontos de dano.
-                        `
-                } else txtcomb.innerHTML = "não sei o que aconteceu"
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            } else if (d20 === 1 && atacou !== true) {
-                rolard6();
-                if (tipoinimigo === 4) {
-                    danoinimigo = d6;
-                    vidainimigo = vidainimigo - d6;
-                    txtcomb.innerHTML = `
-                        Vida do inimigo: ${vidainimigo} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
-                        `
-                    atacou = true;
-                } else if (tipoinimigo === 7){
-                    danoinimigo = d6;
-                    vidaminiboss -= d6;
-                    txtcomb.innerHTML = `
-                        Vida do miniboss: ${vidaminiboss} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
-                        `
-                    atacou = true;
-                } else if (tipoinimigo === 5){
-                    danoinimigo = d6;
-                    vidaboss -= d6;
-                    txtcomb.innerHTML = `
-                        Vida do miniboss: ${vidaboss} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
-                        `
-                    atacou = true;
-                }
-            } else if (d20 === 20 && atacou !== true) {
-                crit();
-                if (tipoinimigo === 4) {
-                    danoinimigo = d20crit;
-                    vidapers -= d20crit;
-                    txtcomb.innerHTML = `
-                        Vida do inimigo: ${vidainimigo} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O inimigo critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
-                        `
-                    atacou = true;
-                } else if (tipoinimigo === 7){
-                    danoinimigo = d20crit;
-                    vidapers = vidapers - d20crit;
-                    txtcomb.innerHTML = `
-                        Vida do miniboss: ${vidaminiboss} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O miniboss critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
-                        `
-                } else if (tipoinimigo === 5){
-                    danoinimigo = d20crit;
-                    vidapers = vidapers - d20crit;
-                    txtcomb.innerHTML = `
-                        Vida do boss: ${vidaboss} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O boss critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
-                        `
-                }
-                if (vidapers < 0) {
-                    morreu();
-                }
-            } else {
-                if (tipoinimigo === 4) {
-                    txtcomb.innerHTML = `
-                        Vida do inimigo: ${vidainimigo} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O inimigo errou o ataque, prepare o seu agora.
-                        `
-                } else if (tipoinimigo === 7){
-                    txtcomb.innerHTML = `
-                        Vida do miniboss: ${vidaminiboss} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O miniboss errou o ataque, prepare o seu agora.
-                        `
-                } else if (tipoinimigo === 5){
-                    txtcomb.innerHTML = `
-                        Vida do boss: ${vidaboss} <br>
-                        Vida do personagem:${vidapers} <br>
-                        Número rolado no D20: ${d20} <br>
-                        O boss errou o ataque, prepare o seu agora.
-                        `
-                }
-            }
-            btnsataque.style.display = "flex";
-            btnsataque.style.visibility = "visible";
+            ataqueinimigo();
         }, 2000)
     }
 
 
 }
-
-function ataquee() {
-    let text = document.getElementById("texto");
-    let divcombate = document.getElementById("combate");
-    let txtcomb = document.getElementById("combtext");
-    let btnsataque = document.getElementById("btnscombate");
-    let btns = document.getElementById("btns");
-    let inimigomorto = true;
-    atacou = false;
-    if (miniboss === true) {
-        ataqueminiboss()
-    } else if (encontrouboss === false) {
-        text.innerHTML = "Um inimigo, derrote-o para prosseguir com sua jornada."
-        rolard20();
-        if (d20 > defesainimigo && atacou !== true) {
-            rolard6();
-            danopers = d6 + 5;
-            vidainimigo = vidainimigo - danopers;
-            txtcomb.innerHTML = `
-            Vida do inimigo: ${vidainimigo} <br>
-            Vida do personagem: ${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            Você acertou o inimigo, dando ${danopers} de dano nele.
-            `
-            atacou = true;
-        } else if (d20 === 1 && atacou !== true) {
-            rolard6();
-            danopers = d6;
-            vidapers = vidapers - d6;
-            txtcomb.innerHTML = `
-                Vida do inimigo: ${vidainimigo} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                Você tirou 1 no D20, errou o ataque e caiu de cara no chão, dando ${d6} pontos de dano em si mesmo.
-                `
-            atacou = true;
-        } else if (d20 === 20 && atacou !== true) {
-            crit();
-            danopers = d20crit;
-            vidainimigo = vidainimigo - d20crit;
-            txtcomb.innerHTML = `
-            Vida do inimigo: ${vidainimigo} <br>
-            Vida do personagem:${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            Você critou no D20, dando ${d20crit} de dano no inimigo, agora ele vai atacar, se prepare.
-            `
-            atacou = true;
-        } else {
-            txtcomb.innerHTML = `
-            Vida do inimigo: ${vidainimigo} <br>
-            Vida do personagem:${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            Você não acertou o inimigo, prepare-se para o ataque dele.
-            `
-            atacou = true;
-        }
-        if (vidainimigo <= 0) {
-            text.innerHTML = "Você derrotou o inimigo, agora prossiga com sua jornada através da dungeon para achar o tesouro.";
-            vidainimigo = 20;
-            inimigomorto = false;
-            limpainimigo();
-            mover = true;
-            divcombate.style.visibility = "collapse";
-            btns.style.visibility = "visible";
-            btnsataque.style.visibility = "visible";
-            txtcomb.style.marginTop = "0";
-        }
-        btnsataque.style.visibility = "collapse";
-        if (inimigomorto) {
-            setTimeout(function () {
-                atacou = false;
-                rolard20();
-                if (d20 > defesapers && atacou !== true) {
-                    rolard6();
-                    danoinimigo = d6 + 3;
-                    vidapers = vidapers - danoinimigo;
-                    txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    O inimigo te acertou, dando ${danoinimigo} pontos de dano.
-                    `
-                    atacou = true;
-                    if (vidapers < 0) {
-                        morreu();
-                    }
-                } else if (d20 === 1 && atacou !== true) {
-                    rolard6();
-                    danoinimigo = d6;
-                    vidainimigo = vidainimigo - d6;
-                    txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
-                    `
-                    atacou = true;
-                } else if (d20 === 20 && atacou !== true) {
-                    rolard20();
-                    danoinimigo = d20;
-                    txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    O inimigo critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
-                    `
-                    atacou = true;
-                    if (vidapers < 0) {
-                        morreu();
-                    }
-                } else {
-                    txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    O inimigo errou o ataque, prepare o seu agora.
-                    `
-                }
-                btnsataque.style.display = "flex";
-                btnsataque.style.visibility = "visible";
-            }, 2000)
-        }
-    } else {
-        ataqueboss()
-    }
-
-}
-
-function ataqueboss() {
-    let text = document.getElementById("texto");
-    let divcombate = document.getElementById("combate");
-    let txtcomb = document.getElementById("combtext");
-    let btnsataque = document.getElementById("btnscombate");
-    text.innerHTML = "Um inimigo, derrote- o para prosseguir com sua jornada."
-    rolard20();
-    btnsataque.style.visibility = "collapse";
-    if (d20 > defesaboss && atacou !== true) {
-        rolard6();
-        danopers = d6 + 10;
-        vidaboss = vidaboss - danopers;
-        txtcomb.innerHTML = `
-            Vida do Boss: ${vidaboss} <br>
-            Vida do personagem: ${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            Você acertou o inimigo, dando ${danopers} de dano nele.
-            `
-        atacou = true;
-    } else if (d20 === 1 && atacou !== true) {
-        rolard6();
-        danopers = d6;
-        vidapers = vidapers - d6;
-        txtcomb.innerHTML = `
-                Vida do Boss: ${vidaboss} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                Você tirou 1 no D20, errou o ataque e caiu de cara no chão, dando ${d6} pontos de dano em si mesmo.
-                `
-        atacou = true;
-    } else if (d20 === 20 && atacou !== true) {
-        rolard6();
-        danopers = (d6 + 8) * 2;
-        vidaboss = vidaboss - danopers;
-        txtcomb.innerHTML = `
-            Vida do Boss: ${vidaboss} <br>
-            Vida do personagem:${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            Você critou no D20, dando ${danopers} de dano no inimigo, agora ele vai atacar, se prepare.
-            `
-        atacou = true;
-    } else {
-        txtcomb.innerHTML = `
-            Vida do Boss: ${vidaboss} <br>
-            Vida do personagem:${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            Você não acertou o inimigo, prepare-se para o ataque dele.
-            `
-        atacou = true;
-    }
-    if (vidaboss <= 0) {
-        text.innerHTML = "Você derrotou o Boss e obtém a chave para abrir o baú, vá até ele e resgate a sua recompensa";
-        divcombate.style.visibility = "collapse";
-        limpainimigo();
-        mover = true;
-        chavebau = true;
-        btnsataque.style.visibility = "collapse";
-
-    }
-    setTimeout(function () {
-        atacou = false;
-        rolard20();
-        if (d20 > defesapers && atacou !== true) {
-            rolard6();
-            danoboss = d6 + 3;
-            vidapers = vidapers - danoboss;
-            txtcomb.innerHTML = `
-                Vida do inimigo: ${vidaboss} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O Boss te acertou, dando ${danoinimigo} pontos de dano.
-                `
-            if (vidapers < 0) {
-                morreu();
-            }
-            btnsataque.style.display = "block";
-            atacou = true;
-        } else if (d20 === 1 && atacou !== true) {
-            rolard6();
-            danoboss = d6;
-            vidaboss = vidaboss - danoboss
-            txtcomb.innerHTML = `
-                Vida do inimigo: ${vidaboss} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo tirou 1 no D20 e caiu de cara no chão dando ${danoboss} pontos de dano em si mesmo, prepare seu ataque agora.
-                `
-            atacou = true;
-            btnsataque.style.display = "block";
-        } else if (d20 === 20 && atacou !== true) {
-            rolard20();
-            danoboss = d20 * 2;
-            txtcomb.innerHTML = `
-                Vida do inimigo: ${vidaboss} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
-                `
-            if (vidapers < 0) {
-                morreu();
-            }
-            atacou = true;
-        } else {
-            txtcomb.innerHTML = `
-                Vida do inimigo: ${vidaboss} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo errou o ataque, prepare o seu agora.
-                `
-            atacou = true;
-            btnsataque.style.display = "flex";
-        }
-    }, 2000)
-    btnsataque.style.display = "flex";
-}
-
-function ataqueminiboss() {
-    atacou = false;
-    let minimorto = true
-    let text = document.getElementById("texto");
-    let divcombate = document.getElementById("combate");
-    let txtcomb = document.getElementById("combtext");
-    let btnsataque = document.getElementById("btnscombate");
-    text.innerHTML = "O miniboss, derrote-o para prosseguir com sua jornada."
-    txtcomb.style.marginTop = "100px";
-    rolard20();
-    btnsataque.style.visibility = "collapse";
-    if (d20 > defesamini && d20 !== 20 && atacou !== true) {
-        rolard6();
-        danopers = d6 + 10;
-        vidaminiboss = vidaminiboss - danopers;
-        txtcomb.innerHTML = `
-        Vida do miniboss: ${vidaminiboss} <br>
-        Vida do personagem: ${vidapers} <br>
-        Número rolado no D20: ${d20} <br>
-        Você acertou o inimigo, dando ${danopers} de dano nele.
-        `
-        atacou = true;
-
-    } else if (d20 === 1 && atacou !== true) {
-        rolard6();
-        danopers = d6;
-        vidapers = vidapers - d6;
-        txtcomb.innerHTML = `
-            Vida do miniboss: ${vidaminiboss} <br>
-            Vida do personagem:${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            Você tirou 1 no D20, errou o ataque e caiu de cara no chão, dando ${d6} pontos de dano em si mesmo.
-            `
-        atacou = true;
-    } else if (d20 === 20 && atacou !== true) {
-        crit();
-        danopers = d20crit;
-        vidaminiboss = vidaminiboss - d20crit;
-        txtcomb.innerHTML = `
-        Vida do miniboss: ${vidaminiboss} <br>
-        Vida do personagem:${vidapers} <br>
-        Número rolado no D20: ${d20} <br>
-        Você critou no D20, dando ${d20crit} de dano no inimigo, agora ele vai atacar, se prepare.
-        `
-        atacou = true;
-    } else {
-        txtcomb.innerHTML = `
-        Vida do miniboss: ${vidaminiboss} <br>
-        Vida do personagem:${vidapers} <br>
-        Número rolado no D20: ${d20} <br>
-        Você não acertou o inimigo, prepare-se para o ataque dele.
-        `
-        atacou = true;
-    }
-    if (vidaminiboss <= 0) {
-        text.innerHTML = "Você derrotou o miniboss e agora obtém a chave para a sala do boss.";
-        divcombate.style.visibility = "collapse";
-        limpainimigo();
-        mover = true;
-        chaveboss = true;
-        miniboss = false;
-        btnsataque.style.visibility = "collapse";
-        minimorto = false
-    }
-    txtcomb.style.marginTop = "0";
-    if (minimorto) {
-        setTimeout(function () {
-            atacou = false;
-            rolard20();
-            if (d20 > defesapers && atacou !== true) {
-                rolard6();
-                danoinimigo = d6 + 3;
-                vidapers = vidapers - danoinimigo;
-                txtcomb.innerHTML = `
-                Vida do miniboss: ${vidaminiboss} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo te acertou, dando ${danoinimigo} pontos de dano.
-                `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            } else if (d20 === 1 && atacou !== true) {
-                rolard6();
-                danoinimigo = d6;
-                vidaminiboss = vidaminiboss - d6;
-                txtcomb.innerHTML = `
-                Vida do miniboss: ${vidaminiboss} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
-                `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            } else if (d20 === 20 && atacou !== true) {
-                rolard20();
-                danoinimigo = d20 + 5;
-                txtcomb.innerHTML = `
-                Vida do miniboss: ${vidaminiboss} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
-                `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            } else {
-                txtcomb.innerHTML = `
-                Vida do miniboss: ${vidaminiboss} <br>
-                Vida do personagem:${vidapers} <br>
-                Número rolado no D20: ${d20} <br>
-                O inimigo errou o ataque, prepare o seu agora.
-                `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            }
-            btnsataque.style.display = "flex";
-            txtcomb.style.marginTop = "0";
-        }, 2000)
-
-    }
-
+function morre() {
+    vidaboss = 0
+    chaveboss = true
 }
 
 function defesa() {
-    atacou = false;
-    let txtcomb = document.getElementById("combtext")
-    let text = document.getElementById("texto")
-    if (encontrouboss !== true) {
-        setTimeout(function () {
-            atacou = false;
-            rolard20();
-            if (d20 > 15 && atacou !== true) {
-                danopers = 3;
-                text.innerHTML = "Você se defendeu com sucesso!!"
-                txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    Você conseguiu se defender do ataque do inimigo, porém levou ${danopers} de dano
-                    `
-                if (vidapers < 0) {
-                    morreu();
-                }
-                atacou = true;
-            } else if (d20 < 5 && atacou !== true) {
-                rolard6();
-                danoinimigo = d6 + 3;
-                vidapers = vidapers - danoinimigo;
-                text.innerHTML = "Você não conseguiu se defendeu!! ):"
-                txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    Você não conseguiu se defender e tomou ${danoinimigo} de dano
-                    `
-                if (vidapers < 0) {
-                    morreu();
-                }
-                atacou = true;
+    let text = document.getElementById("combtext");
+    let btns = document.getElementById("btnscombate");
 
-            } else {
-                danoinimigo = 4;
-                vidapers = vidapers - danoinimigo;
-                text.innerHTML = "Você defendeu parte do golpe do inimigo"
-                txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    Você tenta se defender do ataque, ele ataca porém você perde a postura e leva ${danoinimigo} de dano.
-                    `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            }
-
-        }, 1000)
-    } else {
-        setTimeout(function () {
-            atacou = false;
-            rolard20();
-            if (d20 > 12 && atacou !== true) {
-                danopers = 3;
-                text.innerHTML = "Você se defendeu com sucesso!!"
-                txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    Você conseguiu se defender do ataque do inimigo, porém levou ${danopers} de dano
-                    `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            } else if (d20 < 6 && atacou !== true) {
-                rolard6();
-                danoinimigo = d6 + 5;
-                vidapers = vidapers - danoinimigo;
-                text.innerHTML = "Você não conseguiu se defendeu!! ):"
-                txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    Você não conseguiu se defender e tomou ${danoinimigo} de dano
-                    `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-
-            } else {
-                danoinimigo = 6;
-                vidapers = vidapers - danoinimigo;
-                text.innerHTML = "Você defendeu parte do golpe do inimigo"
-                txtcomb.innerHTML = `
-                    Vida do inimigo: ${vidainimigo} <br>
-                    Vida do personagem:${vidapers} <br>
-                    Número rolado no D20: ${d20} <br>
-                    Você tenta se defender do ataque, ele ataca porém você perde a postura e leva ${danoinimigo} de dano.
-                    `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            }
-
-        }, 1000)
-    }
+    btns.style.visibility = "collapse";
+    if (tipoinimigo === 4){ 
+        text.innerHTML = `
+        Vida do inimigo: ${vidainimigo}<br>
+        Vida do personagem: ${vidapers}<br>
+        Você está se defendendo, agora prepare-se para o ataque inimigo...`
+    } else if (tipoinimigo === 7){
+        text.innerHTML = `
+        Vida do miniboss: ${vidaminiboss}<br>
+        Vidado personagem: ${vidapers}<br>
+        Você está se defendendo, agora prepare-se para o ataque do miniboss...
+        `
+    } else if (tipoinimigo === 5){
+        text.innerHTML = `
+        Vida do boss: ${vidaboss}<br>
+        Vida do personagem: ${vidapers}<br>
+        Você está se defendendo, agora prepare-se para o ataque do boss...
+        `
+    }   
+    defesapers = defesapers + 5;
+    setTimeout(() => {
+        ataqueinimigo();
+    }, 2000);    
+    defesapers -= 5;
 }
 
 function curase() {
-    atacou = false;
-    let text = document.getElementById("texto")
-    let txtcomb = document.getElementById("combtext")
-    if (cura > 0) {
-        vidapers = vidapers + 20;
-        cura = cura - 1;
-        text.innerHTML = "Você se curou, prepare-se para o ataque inimigo..."
-        setTimeout(function () {
-            atacou = false;
-            rolard20();
-            if (d20 > defesapers && atacou !== true) {
-                rolard6();
-                danoinimigo = d6 + 3;
-                vidapers = vidapers - danoinimigo;
-                txtcomb.innerHTML = `
-                Vida do inimigo: ${vidainimigo} <br>
-              Vida do personagem:${vidapers} <br>
-              Número rolado no D20: ${d20} <br>
-              O inimigo te acertou, e deu ${danoinimigo} de dano
-              `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            } else if (d20 === 1 && atacou !== true) {
-                rolard6();
-                danoinimigo = d6;
-                vidainimigo = vidainimigo - d6;
-                txtcomb.innerHTML = `
-            Vida do inimigo: ${vidainimigo} <br>
-            Vida do personagem:${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
+    let text = document.getElementById("combtext");
+    let btns = document.getElementById("btnscombate");
+
+    if (cura > 0){
+        vidapers += 20;
+        cura -= 1;
+        btns.style.visibility = "collapse";
+        if (tipoinimigo === 4){ 
+            text.innerHTML = `
+            Vida do inimigo: ${vidainimigo}<br>
+            Vida do personagem: ${vidapers}<br>
+            Você se curou, agora prepare-se para o ataque inimigo...`
+        } else if (tipoinimigo === 7){
+            text.innerHTML = `
+            Vida do miniboss: ${vidaminiboss}<br>
+            Vidado personagem: ${vidapers}<br>
+            Você se curou, agora prepare-se para o ataque do miniboss...
             `
-                atacou = true;
-            } else if (d20 === 20 && atacou !== true) {
-                rolard20();
-                danoinimigo = d20;
-                txtcomb.innerHTML = `
-            Vida do inimigo: ${vidainimigo} <br>
-            Vida do personagem:${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            O inimigo critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
+        } else if (tipoinimigo === 5){
+            text.innerHTML = `
+            Vida do boss: ${vidaboss}<br>
+            Vida do personagem: ${vidapers}<br>
+            Você se curou, agora prepare-se para o ataque do boss...
             `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            } else {
-                txtcomb.innerHTML = `
-            Vida do inimigo: ${vidainimigo} <br>
-            Vida do personagem:${vidapers} <br>
-            Número rolado no D20: ${d20} <br>
-            O inimigo errou o ataque, prepare o seu agora.
-            `
-                atacou = true;
-                if (vidapers < 0) {
-                    morreu();
-                }
-            }
-        }, 2000)
+        } 
+        setTimeout(() => {
+            ataqueinimigo();
+        }, 2000);
     } else {
-        text.innerHTML = "Você não tem poções... :'("
+        text.innerHTML = `
+            Vida do boss: ${vidaboss}<br>
+            Vida do personagem: ${vidapers}<br>
+            Você não tem poções de cura... :(
+            `
     }
+    atualizainventario();     
 }
 
 function limpaarea() {
     verposic();
-    if (blococima >= 0 && blococima < 14 && blococima !== 9) {
+    if (blococima >= 0 && blococima < 14 && mapa[blococima][posxpers] !== 9) {
         let quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
         let imgcima = quacima.querySelector("img");
         imgcima.src = "trans.png";
         quacima.style.backgroundColor = "#00000000";
     }
-    if (blocobaixo >= 0 && blocobaixo < 14 && blocobaixo !== 9) {
+    if (blocobaixo >= 0 && blocobaixo < 14 && mapa[blocobaixo][posxpers] !== 9) {
         console.log("Bloco baixo: " + blocobaixo)
         let quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
         let imgbaixo = quabaixo.querySelector("img");
         imgbaixo.src = "trans.png";
         quabaixo.style.backgroundColor = "#00000000";
     }
-    if (blocoesq > 0 && blocoesq < 19 && blocoesq !== 9) {
+    if (blocoesq > 0 && blocoesq < 19 && mapa[posypers][blocoesq] !== 9) {
         console.log("Bloco esquerda: " + blocoesq)
         let quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
         let imgesq = quaesq.querySelector("img");
         imgesq.src = "trans.png";
         quaesq.style.backgroundColor = "#00000000";
     }
-    if (blocodir > 0 && blocodir < 19 && blocodir !== 9) {
+    if (blocodir > 0 && blocodir < 19 && mapa[posypers][blocodir] !== 9) {
         console.log("Bloco direita: " + blocodir)
         let quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
         let imgdir = quadir.querySelector("img");
@@ -1061,7 +652,7 @@ function limpaarea() {
 
 function limpainimigo() {
     verposic();
-    if (blococima >= 0 && blococima < 11) {
+    if (blococima > 0 && blococima < 11 && mapa[blococima][posxpers] !== 1) {
         console.log("Bloco cima: " + blococima)
         let quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
         mapa[blococima][posxpers] = 0;
@@ -1069,7 +660,7 @@ function limpainimigo() {
         imgcima.src = "trans.png";
         imgcima.style.backgroundColor = "#00000000";
     }
-    if (blocobaixo >= 0 && blocobaixo < 11) {
+    if (blocobaixo >= 0 && blocobaixo < 11 && mapa[blococima][posxpers] !== 1) {
         console.log("Bloco baixo: " + blocobaixo)
         let quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
         mapa[blocobaixo][posypers] = 0;
@@ -1077,7 +668,7 @@ function limpainimigo() {
         imgbaixo.src = "trans.png";
         imgbaixo.style.backgroundColor = "#00000000";
     }
-    if (blocoesq > 0 && blocoesq < 19) {
+    if (blocoesq > 0 && blocoesq < 19 && mapa[blococima][posxpers] !== 1) {
         console.log("Bloco esquerda: " + blocoesq)
         let quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
         mapa[posypers][blocoesq] = 0;
@@ -1085,7 +676,7 @@ function limpainimigo() {
         imgesq.src = "trans.png";
         imgesq.style.backgroundColor = "#00000000";
     }
-    if (blocodir > 0 && blocodir < 19) {
+    if (blocodir > 0 && blocodir < 19 && mapa[blococima][posxpers] !== 1) {
         console.log("Bloco direita: " + blocodir)
         let quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
         mapa[posypers][blocodir] = 0;
@@ -1240,6 +831,7 @@ function anda(dir) {
                 bau = document.getElementById(`mapa(${posypers},${blocodir})`);
             }
             let imgbau = bau.querySelector("img");
+            bau.style.backgroundColor = "#00000000"
             imgbau.src = "baufechado.png"
             if (chavebau !== true) {
                 text.innerHTML = "Você achou o baú da dungeon, porém ele está trancado, ache a chave do baú para conseguir abri-lo."
@@ -1248,9 +840,8 @@ function anda(dir) {
                 botoes.style.visibility = "collapse"
                 imgbau.src = "bautesouro.png"
                 text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Recarregando a página"
-                alert("Você finalizou o game")
                 setTimeout(function () {
-                    location.reload()
+                    window.location.href = "index.html"
                 }, 5000)
             }
         } else if (bloco === 3) {
@@ -1284,13 +875,4 @@ function anda(dir) {
     } else {
         resetapagina();
     }
-}
-
-function teste(){
-    for (let dado = 0; dado < 5; dado++){
-        d = Math.floor((Math.random() * 20) + 1);
-        crit.push(d);
-    }
-    console.log(d)
-    console.log(`Você tirou ${d20} no D20`)
 }
