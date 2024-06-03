@@ -22,3 +22,11 @@ document.addEventListener("DOMContentLoaded", function() {
         window.close();
     }
 });
+
+document.getElementById('playButton').addEventListener('click', function(event) {
+    event.preventDefault();
+    let confirmation = confirm("O jogo é melhor jogado com um zoom de 80%\nDeseja continuar?");
+    if (confirmation) {
+        window.location.href = "jogo.html";
+    }
+});

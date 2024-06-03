@@ -41,12 +41,14 @@ body, html {
 button {
     background-color: #8a8a8a; /* Cor do botão */
     border: none;
+    height: 100px;
+    width: 200px;
     color: #ffff;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 25px;
     margin: 10px 2px;
     cursor: pointer;
     border-radius: 12px;
