@@ -11,6 +11,7 @@ let cura = 1;
 let chaveboss = false;
 let chavebau = false;
 let mover = true;
+let arma = false
 let danopers = 0;
 let defesapers = 10;
 let danoinimigo;
@@ -18,15 +19,18 @@ let danoboss;
 let defesamini = 7;
 let defesaboss = 10;
 let defesainimigo = 5;
+let defesamimico = 5;
 let vidapers = 100;
 let vidainimigo = 20;
 let vidaminiboss = 40;
 let vidaboss = 100;
+let vidamimico = 20;
 let cont = 0;
 let encontrouboss = false;
 let animporta = false;
-let miniboss = false;
 let atacou = false;
+let baudun = false;
+let baumim = false;
 let tipoinimigo;
 let d;
 let arraycrit = [];
@@ -35,29 +39,29 @@ let arraycrit = [];
 mapa = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 0, 4, 0, 0, 4, 0, 1],
+    [1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 0, 4, 0, 0, 4, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 4, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 4, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 0, 0, 4, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 5, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1],
-    [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 4, 0, 1],
+    [1, 1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 4, 0, 1],
     [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 4, 0, 4, 0, 0, 0, 1],
     [1, 1, 7, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function (event) {
     let bool = document.getElementById("btnscombate")
-    if(event.key === "ArrowLeft" || event.key === "a") {
+    if (event.key === "ArrowLeft" || event.key === "a" && mover === true) {
         anda("esquerda");
-    } else if(event.key === "ArrowRight" || event.key === "d") {
+    } else if (event.key === "ArrowRight" || event.key === "d" && mover === true) {
         anda("direita");
-    } else if(event.key === "ArrowUp" || event.key === "w") {
+    } else if (event.key === "ArrowUp" || event.key === "w" && mover === true) {
         anda("cima");
-    } else if(event.key === "ArrowDown" || event.key === "s") {
+    } else if (event.key === "ArrowDown" || event.key === "s" && mover === true) {
         anda("baixo");
     }
 
@@ -105,11 +109,11 @@ function rolard20() {
 }
 
 function crit() {
-    for (let dado = 0; dado < 5; dado++){
+    for (let dado = 0; dado < 5; dado++) {
         d = Math.floor((Math.random() * 20) + 1);
         arraycrit.push(d);
     }
-    arraycrit.sort(function(a, b){return b - a});
+    arraycrit.sort(function (a, b) { return b - a });
     console.log(arraycrit)
     d20crit = arraycrit[0]
     console.log(d20crit)
@@ -204,6 +208,13 @@ function combate() {
         `
         texto.innerHTML = "Você achou o Boss, derrote-o para obter a chave para o baú."
         tipoinimigo = 5;
+    } else if (mapa[posypers][blocodir] === 2 || mapa[posypers][blocoesq] === 2 || mapa[blococima][posxpers] === 2 || mapa[blocobaixo][posxpers] === 2) {
+        combtxt.innerHTML = `
+        Vida do Mímico: ${vidamimico} <br>
+        Vida personagem: ${vidapers} <br>
+        `
+        texto.innerHTML = "Você achou um mímico, derrote-o para prosseguir com sua jornada."
+        tipoinimigo = 2;
     }
     divcombate.style.visibility = "visible";
     btnscombate.style.visibility = "visible";
@@ -218,7 +229,7 @@ function ataqueinimigo() {
     btnsataque.style.visibility = "collapse";
     atacou = false;
     rolard20();
-    if (d20 > defesapers && d20 !== 20 && atacou !== true && tipoinimigo === 4) {
+    if (d20 > defesapers && d20 !== 20 && atacou !== true) {
         rolard6();
         if (tipoinimigo === 4) {
             danoinimigo = d6 + 3;
@@ -247,7 +258,16 @@ function ataqueinimigo() {
                 Número rolado no D20: ${d20} <br>
                 O boss te acertou, dando ${danoinimigo} pontos de dano.
                 `
-        } else txtcomb.innerHTML = "não sei o que aconteceu"
+        } else if (tipoinimigo === 2){
+            danoinimigo = d6 + 3;
+            vidapers = vidapers - danoinimigo;
+            txtcomb.innerHTML = `
+                Vida do mímico: ${vidamimico} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O mímico te acertou, dando ${danoinimigo} pontos de dano.
+                `        
+        }  else txtcomb.innerHTML = "não sei o que aconteceu"
         atacou = true;
         if (vidapers < 0) {
             morreu();
@@ -264,7 +284,7 @@ function ataqueinimigo() {
                 O inimigo tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
                 `
             atacou = true;
-        } else if (tipoinimigo === 7){
+        } else if (tipoinimigo === 7) {
             danoinimigo = d6;
             vidaminiboss -= d6;
             txtcomb.innerHTML = `
@@ -274,7 +294,7 @@ function ataqueinimigo() {
                 O miniboss tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
                 `
             atacou = true;
-        } else if (tipoinimigo === 5){
+        } else if (tipoinimigo === 5) {
             danoinimigo = d6;
             vidaboss -= d6;
             txtcomb.innerHTML = `
@@ -282,6 +302,16 @@ function ataqueinimigo() {
                 Vida do personagem:${vidapers} <br>
                 Número rolado no D20: ${d20} <br>
                 O Boss tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
+                `
+            atacou = true;
+        } else if (tipoinimigo === 2){
+            danoinimigo = d6;
+            vidamimico -= d6;
+            txtcomb.innerHTML = `
+                Vida do Mímico: ${vidamimico} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O Mímico tirou 1 no D20 e mordeu sua lingua dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
                 `
             atacou = true;
         }
@@ -297,7 +327,7 @@ function ataqueinimigo() {
                 O inimigo critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
                 `
             atacou = true;
-        } else if (tipoinimigo === 7){
+        } else if (tipoinimigo === 7) {
             danoinimigo = d20crit;
             vidapers = vidapers - d20crit;
             txtcomb.innerHTML = `
@@ -306,7 +336,7 @@ function ataqueinimigo() {
                 Número rolado no D20: ${d20} <br>
                 O miniboss critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
                 `
-        } else if (tipoinimigo === 5){
+        } else if (tipoinimigo === 5) {
             danoinimigo = d20crit;
             vidapers = vidapers - d20crit;
             txtcomb.innerHTML = `
@@ -314,6 +344,15 @@ function ataqueinimigo() {
                 Vida do personagem:${vidapers} <br>
                 Número rolado no D20: ${d20} <br>
                 O boss critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
+                `
+        } else if (tipoinimigo === 2){
+            danoinimigo = d20crit;
+            vidapers = vidapers - d20crit;
+            txtcomb.innerHTML = `
+                Vida do mímico: ${vidamimico} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                O mímico critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
                 `
         }
         if (vidapers < 0) {
@@ -327,14 +366,14 @@ function ataqueinimigo() {
                 Número rolado no D20: ${d20} <br>
                 O inimigo errou o ataque, prepare o seu agora.
                 `
-        } else if (tipoinimigo === 7){
+        } else if (tipoinimigo === 7) {
             txtcomb.innerHTML = `
                 Vida do miniboss: ${vidaminiboss} <br>
                 Vida do personagem:${vidapers} <br>
                 Número rolado no D20: ${d20} <br>
                 O miniboss errou o ataque, prepare o seu agora.
                 `
-        } else if (tipoinimigo === 5){
+        } else if (tipoinimigo === 5) {
             txtcomb.innerHTML = `
                 Vida do boss: ${vidaboss} <br>
                 Vida do personagem:${vidapers} <br>
@@ -389,9 +428,13 @@ function ataque() {
     btnsataque.style.visibility = "collapse";
     atacou = false;
     rolard20();
-    if (d20 > defesainimigo && d20 !== 20  && atacou !== true && tipoinimigo === 4) {
+    if (d20 > defesainimigo && d20 !== 20 && atacou !== true && tipoinimigo === 4) {
         rolard6();
-        danopers = d6 + 5;
+        if (!arma){
+            danopers = d6 + 5;
+        } else {
+            danopers = d6 + 10;
+        }    
         vidainimigo = vidainimigo - danopers;
         txtcomb.innerHTML = `
             Vida do inimigo: ${vidainimigo} <br>
@@ -400,9 +443,13 @@ function ataque() {
             Você acertou o inimigo, dando ${danopers} de dano nele.
             `
         atacou = true;
-    } else if (d20 > defesamini && d20 !== 20  && atacou !== true && tipoinimigo === 7) {
+    } else if (d20 > defesamini && d20 !== 20 && atacou !== true && tipoinimigo === 7) {
         rolard6();
-        danopers = d6 + 5;
+        if (!arma){
+            danopers = d6 + 5;
+        } else {
+            danopers = d6 + 10;
+        }  
         vidaminiboss = vidaminiboss - danopers;
         txtcomb.innerHTML = `
             Vida do miniboss: ${vidaminiboss} <br>
@@ -411,9 +458,13 @@ function ataque() {
             Você acertou o miniboss, dando ${danopers} de dano nele.
             `
         atacou = true;
-    } else if (d20 > defesaboss && d20 !== 20  && atacou !== true && tipoinimigo === 5) {
+    } else if (d20 > defesaboss && d20 !== 20 && atacou !== true && tipoinimigo === 5) {
         rolard6();
-        danopers = d6 + 5;
+        if (!arma){
+            danopers = d6 + 5;
+        } else {
+            danopers = d6 + 10;
+        }  
         vidaboss = vidaboss - danopers;
         txtcomb.innerHTML = `
             Vida do boss: ${vidaboss} <br>
@@ -422,27 +473,45 @@ function ataque() {
             Você acertou o boss, dando ${danopers} de dano nele.
             `
         atacou = true;
-    }else if (d20 === 1 && atacou !== true) {
+    } else if (d20 > defesamimico && d20 !== 20 && atacou !== true && tipoinimigo === 2) {
+        rolard6();
+        danopers = d6 + 5;        
+        vidamimico = vidamimico - danopers;
+        txtcomb.innerHTML = `
+            Vida do mímico: ${vidamimico} <br>
+            Vida do personagem: ${vidapers} <br>
+            Número rolado no D20: ${d20} <br>
+            Você acertou o mímico, dando ${danopers} de dano nele.
+            `
+        atacou = true;
+    } else if (d20 === 1 && atacou !== true) {
         rolard6();
         danopers = d6;
         vidapers = vidapers - d6;
-        if (tipoinimigo === 4){
+        if (tipoinimigo === 4) {
             txtcomb.innerHTML = `
                 Vida do inimigo: ${vidainimigo} <br>
                 Vida do personagem:${vidapers} <br>
                 Número rolado no D20: ${d20} <br>
                 Você tirou 1 no D20, errou o ataque e caiu de cara no chão, dando ${d6} pontos de dano em si mesmo.
                 `
-        } else if (tipoinimigo === 7){
+        } else if (tipoinimigo === 7) {
             txtcomb.innerHTML = `
                 Vida do miniboss: ${vidaminiboss} <br>
                 Vida do personagem:${vidapers} <br>
                 Número rolado no D20: ${d20} <br>
                 Você tirou 1 no D20, errou o ataque e caiu de cara no chão, dando ${d6} pontos de dano em si mesmo.
                 `
-        } else if (tipoinimigo === 5){
+        } else if (tipoinimigo === 5) {
             txtcomb.innerHTML = `
                 Vida do boss: ${vidaboss} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                Você tirou 1 no D20, errou o ataque e caiu de cara no chão, dando ${d6} pontos de dano em si mesmo.
+                `
+        } else if (tipoinimigo === 2) {
+            txtcomb.innerHTML = `
+                Vida do mímico: ${vidamimico} <br>
                 Vida do personagem:${vidapers} <br>
                 Número rolado no D20: ${d20} <br>
                 Você tirou 1 no D20, errou o ataque e caiu de cara no chão, dando ${d6} pontos de dano em si mesmo.
@@ -451,9 +520,12 @@ function ataque() {
         atacou = true;
     } else if (d20 === 20 && atacou !== true) {
         crit();
-        danopers = d20crit + 5;
+        rolard6();
         if (tipoinimigo === 4) {
-            vidainimigo = vidainimigo - d20crit;
+            if (arma){
+                danopers = d20crit + d6;
+            }
+            vidainimigo = vidainimigo - danopers;
             txtcomb.innerHTML = `
             Vida do inimigo: ${vidainimigo} <br>
             Vida do personagem:${vidapers} <br>
@@ -461,7 +533,10 @@ function ataque() {
             Você critou no D20, dando ${d20crit} de dano no inimigo, agora ele vai atacar, se prepare.
             `
         } else if (tipoinimigo === 7) {
-            vidaminiboss = vidaminiboss - d20crit;
+            if (arma){
+                danopers = d20crit + d6;
+            }
+            vidaminiboss = vidaminiboss - danopers;
             txtcomb.innerHTML = `
             Vida do miniboss: ${vidaminiboss} <br>
             Vida do personagem:${vidapers} <br>
@@ -469,12 +544,26 @@ function ataque() {
             Você critou no D20, dando ${d20crit} de dano no miniboss, agora ele vai atacar, se prepare.
             `
         } else if (tipoinimigo === 5) {
-            vidaboss = vidaboss - d20crit;
+            if (arma){
+                danopers = d20crit + d6;
+            }
+            vidaboss = vidaboss - danopers;
             txtcomb.innerHTML = `
             Vida do boss: ${vidaboss} <br>
             Vida do personagem:${vidapers} <br>
             Número rolado no D20: ${d20} <br>
             Você critou no D20, dando ${d20crit} de dano no boss, agora ele vai atacar, se prepare.
+            `
+        } else if (tipoinimigo === 2) {
+            if (arma){
+                danopers = d20crit + d6;
+            }
+            vidamimico = vidamimico - danopers;
+            txtcomb.innerHTML = `
+            Vida do mímico: ${vidamimico} <br>
+            Vida do personagem:${vidapers} <br>
+            Número rolado no D20: ${d20} <br>
+            Você critou no D20, dando ${d20crit} de dano no mímico, agora ele vai atacar, se prepare.
             `
         }
         atacou = true;
@@ -494,14 +583,21 @@ function ataque() {
                 Você não acertou o miniboss, prepare-se para o ataque dele.
                 `
 
-        } else if(tipoinimigo === 5){
+        } else if (tipoinimigo === 5) {
             txtcomb.innerHTML = `
                 Vida do boss: ${vidaboss} <br>
                 Vida do personagem:${vidapers} <br>
                 Número rolado no D20: ${d20} <br>
                 Você não acertou o boss, prepare-se para o ataque dele.
                 `
-        }
+        } else if (tipoinimigo === 2) {
+            txtcomb.innerHTML = `
+                Vida do mímico: ${vidamimico} <br>
+                Vida do personagem:${vidapers} <br>
+                Número rolado no D20: ${d20} <br>
+                Você não acertou o mímico, prepare-se para o ataque dele.
+                `
+        }    
         atacou = true;
     }
     if (vidainimigo <= 0 && tipoinimigo === 4) {
@@ -535,7 +631,21 @@ function ataque() {
         divcombate.style.visibility = "collapse";
         btns.style.visibility = "visible";
         tipoinimigo = 0;
-    }
+    } else if (vidamimico <= 0 && tipoinimigo === 2) {
+        text.innerHTML = "Você derrotou o mímico e adiquiriu uma nova arma para sua jornada, fazendo com que você tenha um dano maior, agora prossiga com sua jornada.";
+        inimigomorto = false;
+        limpainimigo();
+        mover = true;
+        divcombate.style.visibility = "collapse";
+        btns.style.visibility = "visible";
+        btnsataque.style.visibility = "visible";
+        txtcomb.style.marginTop = "0";
+        tipoinimigo = 0;
+        arma = true;
+        defesaboss -= 5;
+        defesainimigo -= 3;
+        defesamini -= 5;
+    }    
     btnsataque.style.visibility = "collapse";
     if (inimigomorto) {
         setTimeout(function () {
@@ -555,28 +665,28 @@ function defesa() {
     let btns = document.getElementById("btnscombate");
 
     btns.style.visibility = "collapse";
-    if (tipoinimigo === 4){ 
+    if (tipoinimigo === 4) {
         text.innerHTML = `
         Vida do inimigo: ${vidainimigo}<br>
         Vida do personagem: ${vidapers}<br>
         Você está se defendendo, agora prepare-se para o ataque inimigo...`
-    } else if (tipoinimigo === 7){
+    } else if (tipoinimigo === 7) {
         text.innerHTML = `
         Vida do miniboss: ${vidaminiboss}<br>
         Vidado personagem: ${vidapers}<br>
         Você está se defendendo, agora prepare-se para o ataque do miniboss...
         `
-    } else if (tipoinimigo === 5){
+    } else if (tipoinimigo === 5) {
         text.innerHTML = `
         Vida do boss: ${vidaboss}<br>
         Vida do personagem: ${vidapers}<br>
         Você está se defendendo, agora prepare-se para o ataque do boss...
         `
-    }   
+    }
     defesapers = defesapers + 5;
     setTimeout(() => {
         ataqueinimigo();
-    }, 2000);    
+    }, 2000);
     defesapers -= 5;
 }
 
@@ -584,68 +694,75 @@ function curase() {
     let text = document.getElementById("combtext");
     let btns = document.getElementById("btnscombate");
 
-    if (cura > 0){
+    if (cura > 0) {
         vidapers += 20;
         cura -= 1;
         btns.style.visibility = "collapse";
-        if (tipoinimigo === 4){ 
+        if (tipoinimigo === 4) {
             text.innerHTML = `
             Vida do inimigo: ${vidainimigo}<br>
             Vida do personagem: ${vidapers}<br>
             Você se curou, agora prepare-se para o ataque inimigo...`
-        } else if (tipoinimigo === 7){
+        } else if (tipoinimigo === 7) {
             text.innerHTML = `
             Vida do miniboss: ${vidaminiboss}<br>
             Vidado personagem: ${vidapers}<br>
             Você se curou, agora prepare-se para o ataque do miniboss...
             `
-        } else if (tipoinimigo === 5){
+        } else if (tipoinimigo === 5) {
             text.innerHTML = `
             Vida do boss: ${vidaboss}<br>
             Vida do personagem: ${vidapers}<br>
             Você se curou, agora prepare-se para o ataque do boss...
             `
-        } 
+        }
         setTimeout(() => {
             ataqueinimigo();
         }, 2000);
     } else {
         text.innerHTML = `
-            Vida do boss: ${vidaboss}<br>
             Vida do personagem: ${vidapers}<br>
             Você não tem poções de cura... :(
             `
     }
-    atualizainventario();     
+    atualizainventario();
 }
 
 function limpaarea() {
     verposic();
-    if (blococima >= 0 && blococima < 14 && mapa[blococima][posxpers] !== 9) {
+    if (blococima >= 0 && blococima < 14) {
         let quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
         let imgcima = quacima.querySelector("img");
-        imgcima.src = "trans.png";
+        if (mapa[blococima][posxpers] !== 9 && mapa[blococima][posxpers] !== 2) {
+            imgcima.src = "trans.png";
+        }
         quacima.style.backgroundColor = "#00000000";
     }
-    if (blocobaixo >= 0 && blocobaixo < 14 && mapa[blocobaixo][posxpers] !== 9) {
+    if (blocobaixo >= 0 && blocobaixo < 14) {
         console.log("Bloco baixo: " + blocobaixo)
         let quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
         let imgbaixo = quabaixo.querySelector("img");
-        imgbaixo.src = "trans.png";
+        if (mapa[blocobaixo][posxpers] !== 9 && mapa[blocobaixo][posxpers] !== 2) {
+            imgbaixo.src = "trans.png";
+        }
         quabaixo.style.backgroundColor = "#00000000";
     }
-    if (blocoesq > 0 && blocoesq < 19 && mapa[posypers][blocoesq] !== 9) {
+    if (blocoesq > 0 && blocoesq < 19) {
         console.log("Bloco esquerda: " + blocoesq)
         let quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
         let imgesq = quaesq.querySelector("img");
-        imgesq.src = "trans.png";
+        if (mapa[posypers][blocoesq] !== 9 && mapa[posypers][blocoesq] !== 2) {
+            imgesq.src = "trans.png";
+        }
         quaesq.style.backgroundColor = "#00000000";
     }
-    if (blocodir > 0 && blocodir < 19 && mapa[posypers][blocodir] !== 9) {
+    if (blocodir > 0 && blocodir < 19) {
         console.log("Bloco direita: " + blocodir)
         let quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
         let imgdir = quadir.querySelector("img");
-        imgdir.src = "trans.png";
+        if (mapa[posypers][blocodir] !== 9 && mapa[posypers][blocodir] !== 2) {
+            imgdir.src = "trans.png";
+        }
         quadir.style.backgroundColor = "#00000000";
     }
 }
@@ -686,6 +803,88 @@ function limpainimigo() {
     }
 }
 
+function percepcao(dir) {
+    let text = document.getElementById("texto");
+
+    text.innerHTML = "Você vê uma porta a sua frente, e está fechada, rolando um teste de perçepção para saber o que está atrás dela."
+    setTimeout(() => {
+        rolard20();
+        let confirmed;
+        console.log(d20)
+        if (d20 === 1) {
+            rolard6();
+            vidapers -= d6;
+            text.innerHTML = `Você tenta ouvir o que está atrás da porta e bate a cabeça na porta, tomanddo ${d6} de dano em si mesmo.`
+        } else if (d20 === 20 && dir === "cima") {
+                text.innerHTML = "Voçe percebe que existe um baú na sua esuqerda e poções de cura na direita, você vai abrir a porta?"
+                setTimeout(() => {
+                    confirmed = confirm("Deseja abrir a porta?");
+                    if (confirmed === true) {
+                        mapa[4][6] = 0;
+                    }
+                }, 2000);
+        } else if (d20 >= 10 && dir === "cima") {
+                text.innerHTML = "Você percebe um baú na esquerda e alguns objetos de vidro na direita, você vai abrir a porta?"
+                setTimeout(() => {
+                    confirmed = confirm("Deseja abrir a porta?");
+                    if (confirmed === true) {
+                        mapa[4][6] = 0;
+                    }
+                }, 2000);
+        } else if (d20 >= 5 && dir === "cima") {
+                text.html = "Você percebe várias coisas na direita e uma coisa na esquerda, você vai abrir a porta?"
+                setTimeout(() => {
+                    confirmed = confirm("Deseja abrir a porta?");
+                    if (confirmed === true) {
+                        mapa[4][6] = 0;
+                    }
+                }, 2000);
+        } else if (d20 >= 2 && dir === "cima") {
+                text.innerHTML = "Você não percebe nada de anormal, a porta está fechada e você não percebe nada de anormal, o que deseja fazer?"
+                setTimeout(() => {
+                    confirmed = confirm("Deseja abrir a porta?");
+                    if (confirmed === true) {
+                        mapa[4][6] = 0;
+                    }
+                }, 2000);
+        } else if (d20 === 20 && dir === "baixo") {
+                text.innerHTML = "Você percebe que existe um inimigo com a chave para o boss no pulso e um baú na direita, você vai abrir a porta?"
+                setTimeout(() => {
+                    confirmed = confirm("Deseja abrir a porta?");
+                    if (confirmed === true) {
+                        mapa[9][6] = 0;
+                    }
+                }, 2000);
+        } else if (d20 >= 10 && dir === "baixo") {
+                text.innerHTML = "Você percebe um inimigo com uma chave no pulso e um baú na direita, você vai abrir a porta?"
+                setTimeout(() => {
+                    confirmed = confirm("Deseja abrir a porta?");
+                    if (confirmed === true) {
+                        mapa[9][6] = 0;
+                    }
+                }, 2000);
+        } else if (d20 >= 5 && dir === "baixo") {
+                text.innerHTML = "Você percebe alguém na esquerda e alguma coisa na direita, você vai abrir a porta?"
+                setTimeout(() => {
+                    confirmed = confirm("Deseja abrir a porta?");
+                    if (confirmed === true) {
+                        mapa[9][6] = 0;
+                    }
+                }, 2000);
+        } else if (d20 >= 2 && dir === "baixo") {
+                text.innerHTML = "Você não percebe nada de anormal, vai abrir a porta??"
+                setTimeout(() => {
+                    confirmed = confirm("Deseja abrir a porta?");
+                    if (confirmed === true) {
+                        mapa[9][6] = 0;
+                    }
+                }, 2000);
+        }
+        mover = true;
+    }, 2000);
+
+}
+
 function anda(dir) {
     let text = document.getElementById("texto")
     /*
@@ -717,7 +916,7 @@ function anda(dir) {
             console.log(`mapa(${posypers},${blocodir})`);
         }
 
-        if (bloco === 0 || bloco === 2) {
+        if (bloco === 0) {
             console.log(bloco);
             let blocomuda;
             if (dir === "cima") {
@@ -747,6 +946,13 @@ function anda(dir) {
             limpaarea();
             atualizainventario();
 
+        } else if (bloco === 10 || bloco === 11) {
+            mover = false;
+            if (bloco === 10) {
+                percepcao("baixo")
+            } else if (bloco === 11) {
+                percepcao("cima")
+            }
         } else if (bloco === 1) {
             text.innerHTML = "Você não pode andar para essa posição, há uma parede ou um objeto impedindo-o de andar até esse lugar.";
         } else if (bloco === 4) {
@@ -772,13 +978,8 @@ function anda(dir) {
                 if (animporta === false) {
                     text.innerHTML = "Voce coloca a chave, e com um arrepio gira ela, a porta faz um barulho estranho, como se algo estivesse estranho, esse sentimeto se acumula... mas você continua em frente."
                     animporta = true;
-                    for(let i = 0; i < mapa.length; i++) {
-                        for(let j = 0; j < mapa[i].length; j++) {
-                            if(mapa[i][j] === 6) {
-                                mapa[i][j] = 0;
-                            }
-                        }
-                    }
+                    mapa[6][13] = 0;
+                    mapa[7][13] = 0;
                 } else {
                     bloco = 0;
                 }
@@ -819,8 +1020,9 @@ function anda(dir) {
             text.innerHTML = "Você me achou, e se quer enfrentar o boss, vai ter que pegar a chave que está comigo, ha ha ha..."
             divanda.style.visibility = "collapse";
             combate();
-        } else if (bloco === 9) {
+        } else if (bloco === 9 || bloco === 2) {
             let bau;
+            mover = false
             if (dir === "cima") {
                 bau = document.getElementById(`mapa(${blococima},${posxpers})`);
             } else if (dir === "baixo") {
@@ -832,17 +1034,60 @@ function anda(dir) {
             }
             let imgbau = bau.querySelector("img");
             bau.style.backgroundColor = "#00000000"
-            imgbau.src = "baufechado.png"
-            if (chavebau !== true) {
-                text.innerHTML = "Você achou o baú da dungeon, porém ele está trancado, ache a chave do baú para conseguir abri-lo."
+            if (bloco === 9) {
+                let conmed;
+                text.innerHTML = "Você encontrou um baú, deseja abri-lo?"
+                bau.style.backgroundColor = "#00000000"
+                imgbau.src = "baufechado.png"
+                if (!baudun) {
+                    setTimeout(() => {
+                        conmed = confirm("Deseja abrir o baú?")
+                        if (conmed === true) {
+                            if (chavebau !== true && conmed === true) {
+                                mover = true
+                                text.innerHTML = "Você achou o baú da dungeon, porém ele está trancado, ache a chave do baú para conseguir abri-lo."
+                                baudun = true
+                            } else if (chavebau === true && conmed === true) {
+                                mover = true
+                                let botoes = document.getElementById("btns");
+                                botoes.style.visibility = "collapse"
+                                imgbau.src = "bautesouro.png"
+                                text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Recarregando a página"
+                                setTimeout(function () {
+                                    window.location.href = "index.html"
+                                }, 5000)
+                            }
+                        }
+                    }, 2000);
+                }
+
+                if (chavebau !== true && baudun === true) {
+                    mover = true
+                    text.innerHTML = "Você ainda não achou a chave do baú da dungeon, procure-a para conseguir abrir o baú."
+                } else if (chavebau === true) {
+                    mover = true
+                    let botoes = document.getElementById("btns");
+                    botoes.style.visibility = "collapse"
+                    imgbau.src = "bautesouro.png"
+                    text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Recarregando a página"
+                    setTimeout(function () {
+                        window.location.href = "index.html"
+                    }, 5000)
+                }
             } else {
-                let botoes = document.getElementById("btns");
-                botoes.style.visibility = "collapse"
-                imgbau.src = "bautesouro.png"
-                text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Recarregando a página"
-                setTimeout(function () {
-                    window.location.href = "index.html"
-                }, 5000)
+                let conmed;
+                text.innerHTML = "Você encontrou um baú, deseja abri-lo?"
+                bau.style.backgroundColor = "#00000000"
+                imgbau.src = "bau1.png"
+                if (!baudun) {
+                    setTimeout(() => {
+                        conmed = confirm("Deseja abrir o baú?")
+                        if (conmed === true) {
+                            imgbau.src = "bau2.png"
+                            combate();
+                        }
+                    }, 2000);
+                }
             }
         } else if (bloco === 3) {
             let pocao;

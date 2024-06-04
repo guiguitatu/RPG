@@ -29,4 +29,9 @@ document.getElementById('playButton').addEventListener('click', function(event) 
     if (confirmation) {
         window.location.href = "jogo.html";
     }
+    alert(`Tutorial para o game:
+    Você pode jogar com os botões aparecendo na tela ou usando:
+    W A S D ou as setas no teclado para movimentar o personagem.
+    Para atacar, defender ou curar-se, você pode usar as teclas:
+    Z X C respectivamente.`)
 });
