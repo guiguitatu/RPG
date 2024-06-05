@@ -33,6 +33,8 @@ let baudun = false;
 let baumim = false;
 let tipoinimigo;
 let d;
+let cima = '';
+let baixo = '';
 let arraycrit = [];
 
 
@@ -258,7 +260,7 @@ function ataqueinimigo() {
                 Número rolado no D20: ${d20} <br>
                 O boss te acertou, dando ${danoinimigo} pontos de dano.
                 `
-        } else if (tipoinimigo === 2){
+        } else if (tipoinimigo === 2) {
             danoinimigo = d6 + 3;
             vidapers = vidapers - danoinimigo;
             txtcomb.innerHTML = `
@@ -266,8 +268,8 @@ function ataqueinimigo() {
                 Vida do personagem:${vidapers} <br>
                 Número rolado no D20: ${d20} <br>
                 O mímico te acertou, dando ${danoinimigo} pontos de dano.
-                `        
-        }  else txtcomb.innerHTML = "não sei o que aconteceu"
+                `
+        } else txtcomb.innerHTML = "não sei o que aconteceu"
         atacou = true;
         if (vidapers < 0) {
             morreu();
@@ -304,7 +306,7 @@ function ataqueinimigo() {
                 O Boss tirou 1 no D20 e caiu de cara no chão dando ${d6} pontos de dano em si mesmo, prepare seu ataque agora.
                 `
             atacou = true;
-        } else if (tipoinimigo === 2){
+        } else if (tipoinimigo === 2) {
             danoinimigo = d6;
             vidamimico -= d6;
             txtcomb.innerHTML = `
@@ -345,7 +347,7 @@ function ataqueinimigo() {
                 Número rolado no D20: ${d20} <br>
                 O boss critou no D20, dando ${d20} pontos de dano no personagem, prepare seu ataque.
                 `
-        } else if (tipoinimigo === 2){
+        } else if (tipoinimigo === 2) {
             danoinimigo = d20crit;
             vidapers = vidapers - d20crit;
             txtcomb.innerHTML = `
@@ -430,11 +432,11 @@ function ataque() {
     rolard20();
     if (d20 > defesainimigo && d20 !== 20 && atacou !== true && tipoinimigo === 4) {
         rolard6();
-        if (!arma){
+        if (!arma) {
             danopers = d6 + 5;
         } else {
             danopers = d6 + 10;
-        }    
+        }
         vidainimigo = vidainimigo - danopers;
         txtcomb.innerHTML = `
             Vida do inimigo: ${vidainimigo} <br>
@@ -445,11 +447,11 @@ function ataque() {
         atacou = true;
     } else if (d20 > defesamini && d20 !== 20 && atacou !== true && tipoinimigo === 7) {
         rolard6();
-        if (!arma){
+        if (!arma) {
             danopers = d6 + 5;
         } else {
             danopers = d6 + 10;
-        }  
+        }
         vidaminiboss = vidaminiboss - danopers;
         txtcomb.innerHTML = `
             Vida do miniboss: ${vidaminiboss} <br>
@@ -460,11 +462,11 @@ function ataque() {
         atacou = true;
     } else if (d20 > defesaboss && d20 !== 20 && atacou !== true && tipoinimigo === 5) {
         rolard6();
-        if (!arma){
+        if (!arma) {
             danopers = d6 + 5;
         } else {
             danopers = d6 + 10;
-        }  
+        }
         vidaboss = vidaboss - danopers;
         txtcomb.innerHTML = `
             Vida do boss: ${vidaboss} <br>
@@ -475,7 +477,7 @@ function ataque() {
         atacou = true;
     } else if (d20 > defesamimico && d20 !== 20 && atacou !== true && tipoinimigo === 2) {
         rolard6();
-        danopers = d6 + 5;        
+        danopers = d6 + 5;
         vidamimico = vidamimico - danopers;
         txtcomb.innerHTML = `
             Vida do mímico: ${vidamimico} <br>
@@ -522,7 +524,7 @@ function ataque() {
         crit();
         rolard6();
         if (tipoinimigo === 4) {
-            if (arma){
+            if (arma) {
                 danopers = d20crit + d6;
             }
             vidainimigo = vidainimigo - danopers;
@@ -533,7 +535,7 @@ function ataque() {
             Você critou no D20, dando ${d20crit} de dano no inimigo, agora ele vai atacar, se prepare.
             `
         } else if (tipoinimigo === 7) {
-            if (arma){
+            if (arma) {
                 danopers = d20crit + d6;
             }
             vidaminiboss = vidaminiboss - danopers;
@@ -544,7 +546,7 @@ function ataque() {
             Você critou no D20, dando ${d20crit} de dano no miniboss, agora ele vai atacar, se prepare.
             `
         } else if (tipoinimigo === 5) {
-            if (arma){
+            if (arma) {
                 danopers = d20crit + d6;
             }
             vidaboss = vidaboss - danopers;
@@ -555,7 +557,7 @@ function ataque() {
             Você critou no D20, dando ${d20crit} de dano no boss, agora ele vai atacar, se prepare.
             `
         } else if (tipoinimigo === 2) {
-            if (arma){
+            if (arma) {
                 danopers = d20crit + d6;
             }
             vidamimico = vidamimico - danopers;
@@ -597,7 +599,7 @@ function ataque() {
                 Número rolado no D20: ${d20} <br>
                 Você não acertou o mímico, prepare-se para o ataque dele.
                 `
-        }    
+        }
         atacou = true;
     }
     if (vidainimigo <= 0 && tipoinimigo === 4) {
@@ -645,7 +647,7 @@ function ataque() {
         defesaboss -= 5;
         defesainimigo -= 3;
         defesamini -= 5;
-    }    
+    }
     btnsataque.style.visibility = "collapse";
     if (inimigomorto) {
         setTimeout(function () {
@@ -730,7 +732,7 @@ function curase() {
 
 function limpaarea() {
     verposic();
-    if (blococima >= 0 && blococima < 14) {
+    if ((blococima >= 0 && blococima < 14) && mapa[blococima][posxpers] !== 1 && mapa[blococima][posxpers] !== 3 && mapa[blococima][posxpers] !== 4 && mapa[blococima][posxpers] !== 5 && mapa[blococima][posxpers] !== 7) {
         let quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
         let imgcima = quacima.querySelector("img");
         if (mapa[blococima][posxpers] !== 9 && mapa[blococima][posxpers] !== 2) {
@@ -738,7 +740,7 @@ function limpaarea() {
         }
         quacima.style.backgroundColor = "#00000000";
     }
-    if (blocobaixo >= 0 && blocobaixo < 14) {
+    if ((blocobaixo >= 0 && blocobaixo < 14) && mapa[blocobaixo][posxpers] !== 1 && mapa[blocobaixo][posxpers] !== 3 && mapa[blocobaixo][posxpers] !== 4 && mapa[blocobaixo][posxpers] !== 5 && mapa[blocobaixo][posxpers] !== 7) {
         console.log("Bloco baixo: " + blocobaixo)
         let quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
         let imgbaixo = quabaixo.querySelector("img");
@@ -747,7 +749,7 @@ function limpaarea() {
         }
         quabaixo.style.backgroundColor = "#00000000";
     }
-    if (blocoesq > 0 && blocoesq < 19) {
+    if ((blocoesq > 0 && blocoesq < 19) && mapa[posypers][blocoesq] !== 1 && mapa[posypers][blocoesq] !== 3 && mapa[posypers][blocoesq] !== 4 && mapa[posypers][blocoesq] !== 5 && mapa[posypers][blocoesq] !== 7) {
         console.log("Bloco esquerda: " + blocoesq)
         let quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
         let imgesq = quaesq.querySelector("img");
@@ -756,7 +758,7 @@ function limpaarea() {
         }
         quaesq.style.backgroundColor = "#00000000";
     }
-    if (blocodir > 0 && blocodir < 19) {
+    if ((blocodir > 0 && blocodir < 19) && mapa[posypers][blocodir] !== 1 && mapa[posypers][blocodir] !== 3 && mapa[posypers][blocodir] !== 4 && mapa[posypers][blocodir] !== 5 && mapa[posypers][blocodir] !== 7) { 
         console.log("Bloco direita: " + blocodir)
         let quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
         let imgdir = quadir.querySelector("img");
@@ -805,88 +807,136 @@ function limpainimigo() {
 
 function percepcao(dir) {
     let text = document.getElementById("texto");
+    mover = false;
 
     text.innerHTML = "Você vê uma porta a sua frente, e está fechada, rolando um teste de perçepção para saber o que está atrás dela."
-    setTimeout(() => {
-        rolard20();
-        let confirmed;
-        console.log(d20)
-        if (d20 === 1) {
-            rolard6();
-            vidapers -= d6;
-            text.innerHTML = `Você tenta ouvir o que está atrás da porta e bate a cabeça na porta, tomanddo ${d6} de dano em si mesmo.`
-        } else if (d20 === 20 && dir === "cima") {
-                text.innerHTML = "Voçe percebe que existe um baú na sua esuqerda e poções de cura na direita, você vai abrir a porta?"
+    if (dir === 'cima' && cima === '') {
+        setTimeout(() => {
+            rolard20();
+            let confirmed;
+            console.log(d20)
+            if (d20 === 1) {
+                rolard6();
+                vidapers -= d6;
+                text.innerHTML = `Você tenta ouvir o que está atrás da porta e bate a cabeça na porta, tomanddo ${d6} de dano em si mesmo.`
+            } else if (d20 === 20 && dir === "cima") {
+                cima = "Voçe percebe que existe um baú na sua esuqerda e poções de cura na direita, você vai abrir a porta?"
+                text.innerHTML = cima;
                 setTimeout(() => {
                     confirmed = confirm("Deseja abrir a porta?");
                     if (confirmed === true) {
                         mapa[4][6] = 0;
                     }
+                    mover = true;
                 }, 2000);
-        } else if (d20 >= 10 && dir === "cima") {
-                text.innerHTML = "Você percebe um baú na esquerda e alguns objetos de vidro na direita, você vai abrir a porta?"
+            } else if (d20 >= 10 && dir === "cima") {
+                cima = "Você percebe um baú na esquerda e alguns objetos de vidro na direita, você vai abrir a porta?"
+                text.innerHTML = cima;
                 setTimeout(() => {
                     confirmed = confirm("Deseja abrir a porta?");
                     if (confirmed === true) {
                         mapa[4][6] = 0;
                     }
+                    mover = true;
                 }, 2000);
-        } else if (d20 >= 5 && dir === "cima") {
-                text.html = "Você percebe várias coisas na direita e uma coisa na esquerda, você vai abrir a porta?"
+            } else if (d20 >= 5 && dir === "cima") {
+                cima = "Você percebe várias coisas na direita e uma coisa na esquerda, você vai abrir a porta?"
+                text.innerHTML = cima;
                 setTimeout(() => {
                     confirmed = confirm("Deseja abrir a porta?");
                     if (confirmed === true) {
                         mapa[4][6] = 0;
                     }
+                    mover = true;
                 }, 2000);
-        } else if (d20 >= 2 && dir === "cima") {
-                text.innerHTML = "Você não percebe nada de anormal, a porta está fechada e você não percebe nada de anormal, o que deseja fazer?"
+            } else if (d20 >= 2 && dir === "cima") {
+                cima = "Você não percebe nada de anormal, Vai abrir a porta?"
+                text.innerHTML = cima;
                 setTimeout(() => {
                     confirmed = confirm("Deseja abrir a porta?");
                     if (confirmed === true) {
                         mapa[4][6] = 0;
                     }
+                    mover = true;
                 }, 2000);
-        } else if (d20 === 20 && dir === "baixo") {
-                text.innerHTML = "Você percebe que existe um inimigo com a chave para o boss no pulso e um baú na direita, você vai abrir a porta?"
+            }
+            mover = true;
+        }, 2000);
+    } else if (baixo === '' && dir === 'baixo') {
+        setTimeout(() => {
+            rolard20();
+            if (d20 === 1) {
+                rolard6();
+                vidapers -= d6;
+                text.innerHTML = `Você tenta ouvir o que está atrás da porta e bate a cabeça na porta, tomanddo ${d6} de dano em si mesmo.`
+            } else if (d20 === 20 && dir === "baixo") {
+                baixo = "Você percebe que existe um inimigo com a chave para o boss no pulso na esquerda e um baú na direita, você vai abrir a porta?"
+                text.innerHTML = baixo;
                 setTimeout(() => {
                     confirmed = confirm("Deseja abrir a porta?");
                     if (confirmed === true) {
                         mapa[9][6] = 0;
                     }
+                    mover = true;
                 }, 2000);
-        } else if (d20 >= 10 && dir === "baixo") {
-                text.innerHTML = "Você percebe um inimigo com uma chave no pulso e um baú na direita, você vai abrir a porta?"
+            } else if (d20 >= 10 && dir === "baixo") {
+                baixo = "Você percebe um inimigo com uma chave e um baú na direita, você vai abrir a porta?"
+                text.innerHTML = baixo;
                 setTimeout(() => {
                     confirmed = confirm("Deseja abrir a porta?");
                     if (confirmed === true) {
                         mapa[9][6] = 0;
                     }
+                    mover = true
                 }, 2000);
-        } else if (d20 >= 5 && dir === "baixo") {
-                text.innerHTML = "Você percebe alguém na esquerda e alguma coisa na direita, você vai abrir a porta?"
+            } else if (d20 >= 5 && dir === "baixo") {
+                baixo = "Você percebe alguém na esquerda e alguma coisa na direita, você vai abrir a porta?"
+                text.innerHTML = baixo;
                 setTimeout(() => {
                     confirmed = confirm("Deseja abrir a porta?");
                     if (confirmed === true) {
                         mapa[9][6] = 0;
                     }
+                    mover = true
                 }, 2000);
-        } else if (d20 >= 2 && dir === "baixo") {
-                text.innerHTML = "Você não percebe nada de anormal, vai abrir a porta??"
+            } else if (d20 >= 2 && dir === "baixo") {
+                baixo = "Você não percebe nada de anormal, vai abrir a porta??"
+                text.innerHTML = baixo;
                 setTimeout(() => {
                     confirmed = confirm("Deseja abrir a porta?");
                     if (confirmed === true) {
                         mapa[9][6] = 0;
                     }
+                    mover = true;
                 }, 2000);
+            }
+        }, 2000);    
+    } else if (cima != '' || baixo != '') {
+        if (dir === 'cima'){
+            text.innerHTML = cima;
+            setTimeout(() => {
+                confirmed = confirm("Deseja abrir a porta?");
+                if (confirmed === true) {
+                    mapa[9][6] = 0;
+                }
+                mover = true;
+            }, 2000);
+        } else {
+            text.innerHTML = baixo;
+            setTimeout(() => {
+                confirmed = confirm("Deseja abrir a porta?");
+                if (confirmed === true) {
+                    mapa[9][6] = 0;
+                }
+                mover = true;
+            }, 2000);
         }
-        mover = true;
-    }, 2000);
-
+    }    
 }
 
 function anda(dir) {
     let text = document.getElementById("texto")
+    mover = true;
     /*
     if (dir === "cima") {
 
@@ -945,6 +995,7 @@ function anda(dir) {
             }
             limpaarea();
             atualizainventario();
+            mover = true;
 
         } else if (bloco === 10 || bloco === 11) {
             mover = false;
@@ -955,6 +1006,7 @@ function anda(dir) {
             }
         } else if (bloco === 1) {
             text.innerHTML = "Você não pode andar para essa posição, há uma parede ou um objeto impedindo-o de andar até esse lugar.";
+            mover = true
         } else if (bloco === 4) {
             let inimigo;
             if (dir === "cima") {
@@ -1052,12 +1104,12 @@ function anda(dir) {
                                 let botoes = document.getElementById("btns");
                                 botoes.style.visibility = "collapse"
                                 imgbau.src = "bautesouro.png"
-                                text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Recarregando a página"
+                                text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Indo para o Menu"
                                 setTimeout(function () {
                                     window.location.href = "index.html"
                                 }, 5000)
-                            }
-                        }
+                            } else mover = true
+                        } else mover = true
                     }, 2000);
                 }
 
@@ -1065,15 +1117,26 @@ function anda(dir) {
                     mover = true
                     text.innerHTML = "Você ainda não achou a chave do baú da dungeon, procure-a para conseguir abrir o baú."
                 } else if (chavebau === true) {
-                    mover = true
-                    let botoes = document.getElementById("btns");
-                    botoes.style.visibility = "collapse"
-                    imgbau.src = "bautesouro.png"
-                    text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Recarregando a página"
-                    setTimeout(function () {
-                        window.location.href = "index.html"
-                    }, 5000)
-                }
+                    setTimeout(() => {
+                        conmed = confirm("Deseja abrir o baú da dungeon?")
+                        if (conmed === true) {
+                            if (chavebau !== true && conmed === true) {
+                                mover = true
+                                text.innerHTML = "Você achou o baú da dungeon, porém ele está trancado, ache a chave do baú para conseguir abri-lo."
+                                baudun = true
+                            } else if (chavebau === true && conmed === true) {
+                                mover = true
+                                let botoes = document.getElementById("btns");
+                                botoes.style.visibility = "collapse"
+                                imgbau.src = "bautesouro.png"
+                                text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Indo para o menu."
+                                setTimeout(function () {
+                                    window.location.href = "index.html"
+                                }, 5000)
+                            } else mover = true
+                        } else mover = true
+                    }, 2000);
+                } else mover = true
             } else {
                 let conmed;
                 text.innerHTML = "Você encontrou um baú, deseja abri-lo?"
@@ -1085,7 +1148,7 @@ function anda(dir) {
                         if (conmed === true) {
                             imgbau.src = "bau2.png"
                             combate();
-                        }
+                        } else mover = true
                     }, 2000);
                 }
             }
