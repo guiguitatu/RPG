@@ -1074,7 +1074,7 @@ function anda(dir) {
             combate();
         } else if (bloco === 9 || bloco === 2) {
             let bau;
-            mover = false
+            mover = false;
             if (dir === "cima") {
                 bau = document.getElementById(`mapa(${blococima},${posxpers})`);
             } else if (dir === "baixo") {
@@ -1088,6 +1088,7 @@ function anda(dir) {
             bau.style.backgroundColor = "#00000000"
             if (bloco === 9) {
                 let conmed;
+                mover = false;
                 text.innerHTML = "Você encontrou um baú, deseja abri-lo?"
                 bau.style.backgroundColor = "#00000000"
                 imgbau.src = "baufechado.png"
@@ -1100,7 +1101,6 @@ function anda(dir) {
                                 text.innerHTML = "Você achou o baú da dungeon, porém ele está trancado, ache a chave do baú para conseguir abri-lo."
                                 baudun = true
                             } else if (chavebau === true && conmed === true) {
-                                mover = true
                                 let botoes = document.getElementById("btns");
                                 botoes.style.visibility = "collapse"
                                 imgbau.src = "bautesouro.png"
@@ -1163,7 +1163,8 @@ function anda(dir) {
             } else if (dir === "direita") {
                 pocao = document.getElementById(`mapa(${posypers},${blocodir})`);
             }
-            let imgpocao = pocao.querySelector("img")
+            let imgpocao = pocao.querySelector("img");
+            pocao.style.backgroundColor = "#00000000"
             imgpocao.src = "pocao.png"
             if (dir === "cima") {
                 mapa[blococima][posxpers] = 0
@@ -1182,5 +1183,22 @@ function anda(dir) {
         }
     } else {
         resetapagina();
+    }
+}
+
+function abretesesamo(){
+    mapa[4][6] = 0;
+    mapa[9][6] = 0;
+    mapa[6][13] = 0;
+    mapa[7][13] = 0;
+}
+
+function noclip() {
+    for (let i = 1; i < mapa.length -1; i++) {
+        for (let j = 1; j < mapa[i].length - 1; j++) {
+            if (mapa[i][j] === 1 || mapa[i][j] === 10 || mapa[i][j] === 11 || mapa[i][j] === 6) {
+                mapa[i][j] = 0;
+            }
+        }
     }
 }
