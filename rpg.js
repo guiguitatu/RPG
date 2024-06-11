@@ -610,7 +610,6 @@ function ataque() {
         mover = true;
         divcombate.style.visibility = "collapse";
         btns.style.visibility = "visible";
-        btnsataque.style.visibility = "visible";
         txtcomb.style.marginTop = "0";
         tipoinimigo = 0;
     } else if (vidaminiboss <= 0 && tipoinimigo === 7) {
@@ -640,7 +639,6 @@ function ataque() {
         mover = true;
         divcombate.style.visibility = "collapse";
         btns.style.visibility = "visible";
-        btnsataque.style.visibility = "visible";
         txtcomb.style.marginTop = "0";
         tipoinimigo = 0;
         arma = true;
@@ -782,7 +780,7 @@ function limpainimigo() {
     if (blocobaixo >= 0 && blocobaixo < 11 && mapa[blococima][posxpers] !== 1) {
         console.log("Bloco baixo: " + blocobaixo)
         let quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
-        mapa[blocobaixo][posypers] = 0;
+        mapa[blocobaixo][posxpers] = 0;
         let imgbaixo = quabaixo.querySelector("img");
         imgbaixo.src = "trans.png";
         imgbaixo.style.backgroundColor = "#00000000";
@@ -817,6 +815,7 @@ function percepcao(dir) {
             console.log(d20)
             if (d20 === 1) {
                 rolard6();
+                mover = true;
                 vidapers -= d6;
                 text.innerHTML = `Você tenta ouvir o que está atrás da porta e bate a cabeça na porta, tomanddo ${d6} de dano em si mesmo.`
             } else if (d20 === 20 && dir === "cima") {
@@ -860,13 +859,13 @@ function percepcao(dir) {
                     mover = true;
                 }, 2000);
             }
-            mover = true;
         }, 2000);
     } else if (baixo === '' && dir === 'baixo') {
         setTimeout(() => {
             rolard20();
             if (d20 === 1) {
                 rolard6();
+                mover = true;
                 vidapers -= d6;
                 text.innerHTML = `Você tenta ouvir o que está atrás da porta e bate a cabeça na porta, tomanddo ${d6} de dano em si mesmo.`
             } else if (d20 === 20 && dir === "baixo") {
@@ -917,7 +916,7 @@ function percepcao(dir) {
             setTimeout(() => {
                 confirmed = confirm("Deseja abrir a porta?");
                 if (confirmed === true) {
-                    mapa[9][6] = 0;
+                    mapa[4][6] = 0;
                 }
                 mover = true;
             }, 2000);
@@ -1027,9 +1026,11 @@ function anda(dir) {
 
         } else if (bloco === 6) {
             if (chaveboss === true) {
+                mover = false;
                 if (animporta === false) {
                     text.innerHTML = "Voce coloca a chave, e com um arrepio gira ela, a porta faz um barulho estranho, como se algo estivesse estranho, esse sentimeto se acumula... mas você continua em frente."
                     animporta = true;
+                    mover = true;
                     mapa[6][13] = 0;
                     mapa[7][13] = 0;
                 } else {
@@ -1050,6 +1051,7 @@ function anda(dir) {
             } else if (dir === "direita") {
                 inimigo = document.getElementById(`mapa(${posypers},${blocodir})`);
             }
+            inimigo.style.backgroundColor = "#00000000";
             const imagem = inimigo.querySelector("img");
             imagem.src = "boss.png"
             text.innerHTML = "Você encontrou o boss, agora prepare-se para a luta."
@@ -1068,6 +1070,7 @@ function anda(dir) {
                 inimigo = document.getElementById(`mapa(${posypers},${blocodir})`);
             }
             const imagem = inimigo.querySelector("img");
+            inimigo.style.backgroundColor = "#00000000";
             imagem.src = "miniboss.png"
             text.innerHTML = "Você me achou, e se quer enfrentar o boss, vai ter que pegar a chave que está comigo, ha ha ha..."
             divanda.style.visibility = "collapse";
@@ -1154,6 +1157,7 @@ function anda(dir) {
             }
         } else if (bloco === 3) {
             let pocao;
+            mover = false;
             if (dir === "cima") {
                 pocao = document.getElementById(`mapa(${blococima},${posxpers})`);
             } else if (dir === "baixo") {
@@ -1179,6 +1183,7 @@ function anda(dir) {
             setTimeout(function () {
                 cura += 1
                 imgpocao.src = "trans.png"
+                mover = true
             }, 2000)
         }
     } else {
