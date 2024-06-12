@@ -1212,6 +1212,7 @@ function anda(dir) {
                                 imgbau.src = "bautesouro.png"
                                 text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Indo para o menu."
                                 setTimeout(function () {
+                                    localStorage.setItem("conseguidas", JSON.stringify(conseguidas));
                                     window.location.href = "index.html"
                                 }, 6000)
                             } else mover = true
