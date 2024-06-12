@@ -1,3 +1,30 @@
+let nome1 = false;
+let nome2 = false;
+let nome3 = false;
+let nome4 = false;
+window.cheatactive = false;
+
+function cheat(nome){
+    if(nome == 'nome1'){
+        nome1 = true;
+        console.log("Dirceu")
+    }else if(nome == 'nome2'){
+        nome2 = true;
+        console.log("Guilherme")
+    }else if(nome == 'nome3'){
+        nome3 = true;
+        console.log("João")
+    }else if(nome == 'nome4'){
+        nome4 = true;
+        console.log("Vinicius")
+    }
+     if (nome1 && nome2 && nome3 && nome4){
+        window.cheatactive = true;
+        console.log(window.cheatactive)
+        localStorage.setItem('cheat', "true");
+    }   
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     var modal = document.getElementById("aboutModal");
     var btn = document.getElementById("aboutButton");

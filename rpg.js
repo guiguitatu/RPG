@@ -36,6 +36,7 @@ let d;
 let cima = '';
 let baixo = '';
 let arraycrit = [];
+let cheat;
 
 
 mapa = [
@@ -55,16 +56,32 @@ mapa = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
 
+if (localStorage.getItem('cheat') === "true") {
+    cheat = true;
+    console.log(cheat)
+} else {
+    cheat = false;
+    console.log(cheat)
+}    
+
 document.addEventListener('keydown', function (event) {
     let bool = document.getElementById("btnscombate")
-    if (event.key === "ArrowLeft" || event.key === "a" && mover === true) {
+    let chet = document.getElementById("divcheat");
+    if (event.key === "ArrowLeft" || event.key === "a" && mover === true && (chet.style.display == "none" || chet.style.display == "")) {
         anda("esquerda");
-    } else if (event.key === "ArrowRight" || event.key === "d" && mover === true) {
+    } else if (event.key === "ArrowRight" || event.key === "d" && mover === true && (chet.style.display == "none" || chet.style.display == "")) {
         anda("direita");
-    } else if (event.key === "ArrowUp" || event.key === "w" && mover === true) {
+    } else if (event.key === "ArrowUp" || event.key === "w" && mover === true && (chet.style.display == "none" || chet.style.display == "")) {
         anda("cima");
-    } else if (event.key === "ArrowDown" || event.key === "s" && mover === true) {
+    } else if (event.key === "ArrowDown" || event.key === "s" && mover === true && (chet.style.display == "none" || chet.style.display == "")) {
         anda("baixo");
+    }
+    if (cheat && event.key === "t"){        
+        if (chet.style.display == "flex"){
+            chet.style.display = "none";
+        } else if (chet.style.display == "none" || chet.style.display == ""){
+            chet.style.display = "flex";
+        }
     }
 
     if (bool.style.visibility === "visible") {
@@ -1192,13 +1209,16 @@ function anda(dir) {
 }
 
 function abretesesamo(){
+    let p = document.getElementById('pcheat')
     mapa[4][6] = 0;
     mapa[9][6] = 0;
     mapa[6][13] = 0;
     mapa[7][13] = 0;
+    p.innerHTML = p.innerHTML + "<br>abretesesamo"
 }
 
 function noclip() {
+    let p = document.getElementById('pcheat')
     for (let i = 1; i < mapa.length -1; i++) {
         for (let j = 1; j < mapa[i].length - 1; j++) {
             if (mapa[i][j] === 1 || mapa[i][j] === 10 || mapa[i][j] === 11 || mapa[i][j] === 6) {
@@ -1206,4 +1226,34 @@ function noclip() {
             }
         }
     }
+    p.innerHTML = p.innerHTML + "<br>noclip"
+}
+
+function aumentavida(arg){
+    let p = document.getElementById('pcheat')
+    vidapers += parseInt(arg);
+    p.innerHTML = p.innerHTML + "<br>vidapers" + arg
+}
+
+function cheatfunc() {
+    var p = document.getElementById("pcheat");
+    var cheatinput = document.getElementById("cheatInput").value;
+    var command = cheatinput.split(" ")[0];
+    var argument = cheatinput.split(" ")[1];
+
+        switch (command) {
+            case "noclip":
+                noclip();
+                break;
+            case "abretesesamo":
+                abretesesamo();
+                break; 
+            case "vidapers":
+                aumentavida(argument);
+                break;
+            default:
+                p.innerHTML = p.innerHTML + "<br>" + command + " não é um comando válido."
+        }
+    
+    cheatinput.value = ""    
 }
