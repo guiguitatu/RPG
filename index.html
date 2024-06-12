@@ -5,23 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>As aventuras de Geribaldo</title>
     <link rel="stylesheet" href="menu.css">
+    <script>
+        let conquistas = JSON.parse(localStorage.getItem("conseguidas"));
+    </script>
 </head>
 <body>
 <div class="background"></div>
 <div class="content">
     <button id="playButton">Jogar</button>
     <button id="aboutButton">Sobre</button>
+    <button id="conquistasButton">Conquistas</button>
     <button id="exitButton">Sair</button>
 </div>
 
 <div id="aboutModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Sobre os Desenvolvedores</h2>
-        <p onclick="cheat('nome1')">Dirceu cheliga Júnior</p>        
+        <div>
+            <span class="close">&times;</span>
+            <h2>Sobre os Desenvolvedores</h2>
+        </div>
+        <p onclick="cheat('nome1')">Dirceu cheliga Júnior</p>
         <p onclick="cheat('nome2')">Guilherme Sampaio Furquim</p>
         <p onclick="cheat('nome3')">João Vitor Monteiro Tancon</p>
         <p onclick="cheat('nome4')">Vinícius Yudi Sumioshi Alves</p>
+    </div>
+</div>
+
+<div id="conquistasModal" class="modal">
+    <div class="modal-content">
+        <div>
+            <span class="close">&times;</span>
+            <h2>Conquistas</h2>
+        </div>
+        <div id="conquistasContainer" style="width: 100%; display: flex;flex-direction: column; align-items: center"></div>
     </div>
 </div>
 

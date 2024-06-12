@@ -15,7 +15,7 @@ let arma = false
 let danopers = 0;
 let defesapers = 10;
 let danoinimigo;
-let danoboss;
+let bossmorreu = false;
 let defesamini = 7;
 let defesaboss = 10;
 let defesainimigo = 5;
@@ -26,7 +26,7 @@ let vidaminiboss = 40;
 let vidaboss = 100;
 let vidamimico = 20;
 let cont = 0;
-let encontrouboss = false;
+let cheatprime = false;
 let animporta = false;
 let atacou = false;
 let baudun = false;
@@ -37,7 +37,9 @@ let cima = '';
 let baixo = '';
 let arraycrit = [];
 let cheat;
+let conseguidas = [0, 0, 0, 0, 0, 0];
 
+let coonqui = JSON.parse(localStorage.getItem('conseguidas'));
 
 mapa = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -62,7 +64,7 @@ if (localStorage.getItem('cheat') === "true") {
 } else {
     cheat = false;
     console.log(cheat)
-}    
+}
 
 document.addEventListener('keydown', function (event) {
     let bool = document.getElementById("btnscombate")
@@ -76,10 +78,10 @@ document.addEventListener('keydown', function (event) {
     } else if (event.key === "ArrowDown" || event.key === "s" && mover === true && (chet.style.display == "none" || chet.style.display == "")) {
         anda("baixo");
     }
-    if (cheat && event.key === "t"){        
-        if (chet.style.display == "flex"){
+    if (cheat && event.key === "j") {
+        if (chet.style.display === "flex") {
             chet.style.display = "none";
-        } else if (chet.style.display == "none" || chet.style.display == ""){
+        } else if (chet.style.display === "none" || chet.style.display === "") {
             chet.style.display = "flex";
         }
     }
@@ -132,7 +134,9 @@ function crit() {
         d = Math.floor((Math.random() * 20) + 1);
         arraycrit.push(d);
     }
-    arraycrit.sort(function (a, b) { return b - a });
+    arraycrit.sort(function (a, b) {
+        return b - a
+    });
     console.log(arraycrit)
     d20crit = arraycrit[0]
     console.log(d20crit)
@@ -158,7 +162,6 @@ function atualizainventario() {
 }
 
 function morreu() {
-    alert("Você morreu")
     let text = document.getElementById("texto");
     let botoes = document.getElementById("btns");
     botoes.style.visibility = "collapse"
@@ -248,6 +251,7 @@ function ataqueinimigo() {
     btnsataque.style.visibility = "collapse";
     atacou = false;
     rolard20();
+    console.log("teste");
     if (d20 > defesapers && d20 !== 20 && atacou !== true) {
         rolard6();
         if (tipoinimigo === 4) {
@@ -375,6 +379,8 @@ function ataqueinimigo() {
                 `
         }
         if (vidapers < 0) {
+            conseguidas[4] = 1
+            achievement("Comendo terra")
             morreu();
         }
     } else {
@@ -401,40 +407,53 @@ function ataqueinimigo() {
                 `
         }
     }
+    let cara = false
     if (vidainimigo <= 0 && tipoinimigo === 4) {
-        text.innerHTML = "Você derrotou o inimigo, agora prossiga com sua jornada através da dungeon para achar o tesouro.";
+        text.innerHTML = "O inimigo morreu caindo de cara no chão, prossiga com sua jornada através da dungeon para achar o tesouro.";
         vidainimigo = 20;
-        inimigomorto = false;
         limpainimigo();
         mover = true;
         divcombate.style.visibility = "collapse";
         btns.style.visibility = "visible";
-        btnsataque.style.visibility = "visible";
-        txtcomb.style.marginTop = "0";
         tipoinimigo = 0;
+        cara = true
     } else if (vidaminiboss <= 0 && tipoinimigo === 7) {
         chaveboss = true;
-        text.innerHTML = "Você derrotou o miniboss, agora prossiga com sua jornada através da dungeon para achar boss e pegar a chave para o tesouro.";
-        inimigomorto = false;
+        text.innerHTML = "O Miniboss morreu de cara no chão, prossiga com sua jornada através da dungeon para achar boss e pegar a chave para o tesouro.";
         limpainimigo();
         mover = true;
         divcombate.style.visibility = "collapse";
         btns.style.visibility = "visible";
-        btnsataque.style.visibility = "visible";
         tipoinimigo = 0;
+        cara = true
     } else if (vidaboss <= 0 && tipoinimigo === 5) {
-        text.innerHTML = "Você derrotou o Boss e obtém a chave para abrir o baú, vá até ele e resgate a sua recompensa";
+        text.innerHTML = "O Boss morreu caindo de cara no chão, agora você obtém a chave para abrir o baú, vá até ele e resgate a sua recompensa";
         divcombate.style.visibility = "collapse";
         limpainimigo();
-        inimigomorto = false;
+        bossmorreu = true;
         mover = true;
         chavebau = true;
         divcombate.style.visibility = "collapse";
         btns.style.visibility = "visible";
         tipoinimigo = 0;
+        cara = true
+    } else if (vidamimico <= 0 && tipoinimigo === 2) {
+        text.innerHTML = "O Mímico mordeu sua lingua muito forte e acabou morrendo, prossiga com sua jornada através da dungeon para achar o tesouro.";
+        vidamimico = 0;
+        limpainimigo();
+        mover = true;
+        arma = true;
+        divcombate.style.visibility = "collapse";
+        btns.style.visibility = "visible";
+        tipoinimigo = 0;
+        cara = true
+        achievement("Mímico")
+        conseguidas[2] = 1
     }
     btnsataque.style.display = "flex";
-    btnsataque.style.visibility = "visible";
+    if (!cara){
+        btnsataque.style.visibility = "visible";
+    }
 }
 
 function ataque() {
@@ -537,6 +556,9 @@ function ataque() {
                 `
         }
         atacou = true;
+        if (vidapers <= 0) {
+            morreu();
+        }
     } else if (d20 === 20 && atacou !== true) {
         crit();
         rolard6();
@@ -662,16 +684,20 @@ function ataque() {
         defesaboss -= 5;
         defesainimigo -= 3;
         defesamini -= 5;
+        achievement("Mímico")
+        conseguidas[2] = 1
+
     }
     btnsataque.style.visibility = "collapse";
     if (inimigomorto) {
         setTimeout(function () {
             ataqueinimigo();
-        }, 2000)
+        }, 3500)
     }
 
 
 }
+
 function morre() {
     vidaboss = 0
     chaveboss = true
@@ -773,7 +799,7 @@ function limpaarea() {
         }
         quaesq.style.backgroundColor = "#00000000";
     }
-    if ((blocodir > 0 && blocodir < 19) && mapa[posypers][blocodir] !== 1 && mapa[posypers][blocodir] !== 3 && mapa[posypers][blocodir] !== 4 && mapa[posypers][blocodir] !== 5 && mapa[posypers][blocodir] !== 7) { 
+    if ((blocodir > 0 && blocodir < 19) && mapa[posypers][blocodir] !== 1 && mapa[posypers][blocodir] !== 3 && mapa[posypers][blocodir] !== 4 && mapa[posypers][blocodir] !== 5 && mapa[posypers][blocodir] !== 7) {
         console.log("Bloco direita: " + blocodir)
         let quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
         let imgdir = quadir.querySelector("img");
@@ -823,12 +849,11 @@ function limpainimigo() {
 function percepcao(dir) {
     let text = document.getElementById("texto");
     mover = false;
-
+    let confirmed;
     text.innerHTML = "Você vê uma porta a sua frente, e está fechada, rolando um teste de perçepção para saber o que está atrás dela."
     if (dir === 'cima' && cima === '') {
         setTimeout(() => {
             rolard20();
-            let confirmed;
             console.log(d20)
             if (d20 === 1) {
                 rolard6();
@@ -926,9 +951,9 @@ function percepcao(dir) {
                     mover = true;
                 }, 2000);
             }
-        }, 2000);    
+        }, 2000);
     } else if (cima != '' || baixo != '') {
-        if (dir === 'cima'){
+        if (dir === 'cima') {
             text.innerHTML = cima;
             setTimeout(() => {
                 confirmed = confirm("Deseja abrir a porta?");
@@ -947,7 +972,7 @@ function percepcao(dir) {
                 mover = true;
             }, 2000);
         }
-    }    
+    }
 }
 
 function anda(dir) {
@@ -967,6 +992,7 @@ function anda(dir) {
     if (mover !== false) {
         verposic();
         let bloco;
+        let cagao = false
         let divanda = document.getElementById("btns");
         if (dir === "cima") {
             bloco = mapa[blococima][posxpers]
@@ -976,13 +1002,17 @@ function anda(dir) {
             console.log(`mapa(${blocobaixo},${posxpers})`);
         } else if (dir === "esquerda") {
             bloco = mapa[posypers][blocoesq]
+            if (bloco === 1 && posxpers === 1 && posypers === 7) {
+                cagao = true
+            }
             console.log(`mapa(${posypers},${blocoesq})`);
         } else if (dir === "direita") {
             bloco = mapa[posypers][blocodir]
             console.log(`mapa(${posypers},${blocodir})`);
         }
 
-        if (bloco === 0) {
+        if (bloco === 0 && cagao !== true) {
+            let text = document.getElementById("texto");
             console.log(bloco);
             let blocomuda;
             if (dir === "cima") {
@@ -998,6 +1028,7 @@ function anda(dir) {
             imagem.src = "personagem3.png";
             let blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
             let imgboneco = blocopers.querySelector("img");
+            text.innerHTML = " ";
             imgboneco.src = "trans.png";
             blocomuda.style.backgroundColor = "#00000000";
             if (dir === "cima") {
@@ -1013,6 +1044,19 @@ function anda(dir) {
             atualizainventario();
             mover = true;
 
+        } else if (cagao){
+            let comn
+            comn = confirm("Você está saindo da dungeon, deseja continuar?");
+            if (comn === true) {
+                achievement("Cagão")
+                conseguidas[3] = 1
+                localStorage.setItem("conseguidas", JSON.stringify(conseguidas));
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 3000);
+            } else {
+                mover = true;
+            }
         } else if (bloco === 10 || bloco === 11) {
             mover = false;
             if (bloco === 10) {
@@ -1120,23 +1164,32 @@ function anda(dir) {
                                 mover = true
                                 text.innerHTML = "Você achou o baú da dungeon, porém ele está trancado, ache a chave do baú para conseguir abri-lo."
                                 baudun = true
-                            } else if (chavebau === true && conmed === true) {
+                            } else if (chavebau === true && conmed) {
                                 let botoes = document.getElementById("btns");
                                 botoes.style.visibility = "collapse"
                                 imgbau.src = "bautesouro.png"
+                                conseguidas[5] = 1;
+                                achievement("O jogo")
+                                if (vidapers === 100 && conseguidas[1] !== 1) {
+                                    setTimeout(() => {
+                                        conseguidas[0] = 1;
+                                        achievement("Flawless victory");
+                                    }, 5000);
+                                }
                                 text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Indo para o Menu"
                                 setTimeout(function () {
+                                    localStorage.setItem("conseguidas", JSON.stringify(conseguidas));
                                     window.location.href = "index.html"
-                                }, 5000)
+                                }, 10000)
                             } else mover = true
                         } else mover = true
                     }, 2000);
                 }
 
-                if (chavebau !== true && baudun === true) {
+                if (chavebau !== true && baudun) {
                     mover = true
                     text.innerHTML = "Você ainda não achou a chave do baú da dungeon, procure-a para conseguir abrir o baú."
-                } else if (chavebau === true) {
+                } else if (chavebau === true && baudun) {
                     setTimeout(() => {
                         conmed = confirm("Deseja abrir o baú da dungeon?")
                         if (conmed === true) {
@@ -1145,6 +1198,14 @@ function anda(dir) {
                                 text.innerHTML = "Você achou o baú da dungeon, porém ele está trancado, ache a chave do baú para conseguir abri-lo."
                                 baudun = true
                             } else if (chavebau === true && conmed === true) {
+                                conseguidas[5] = 1;
+                                achievement("O jogo")
+                                if (vidapers === 100 && conseguidas[1] !== 1) {
+                                    setTimeout(() => {
+                                        conseguidas[0] = 1;
+                                        achievement("Flawless victory");
+                                    }, 5000);
+                                }
                                 mover = true
                                 let botoes = document.getElementById("btns");
                                 botoes.style.visibility = "collapse"
@@ -1152,7 +1213,7 @@ function anda(dir) {
                                 text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Indo para o menu."
                                 setTimeout(function () {
                                     window.location.href = "index.html"
-                                }, 5000)
+                                }, 6000)
                             } else mover = true
                         } else mover = true
                     }, 2000);
@@ -1208,18 +1269,26 @@ function anda(dir) {
     }
 }
 
-function abretesesamo(){
-    let p = document.getElementById('pcheat')
+function abretesesamo() {
+    let p = document.getElementById('pcheat');
+    let chet = document.getElementById('divcheat');
+    let chetinput = document.getElementById('cheatInput');
+
     mapa[4][6] = 0;
     mapa[9][6] = 0;
     mapa[6][13] = 0;
     mapa[7][13] = 0;
     p.innerHTML = p.innerHTML + "<br>abretesesamo"
+    chetinput.value = "";
+    chet.style.display = "none";
 }
 
 function noclip() {
-    let p = document.getElementById('pcheat')
-    for (let i = 1; i < mapa.length -1; i++) {
+    let p = document.getElementById('pcheat');
+    let chet = document.getElementById('divcheat');
+    let chetinput = document.getElementById('cheatInput');
+
+    for (let i = 1; i < mapa.length - 1; i++) {
         for (let j = 1; j < mapa[i].length - 1; j++) {
             if (mapa[i][j] === 1 || mapa[i][j] === 10 || mapa[i][j] === 11 || mapa[i][j] === 6) {
                 mapa[i][j] = 0;
@@ -1227,33 +1296,143 @@ function noclip() {
         }
     }
     p.innerHTML = p.innerHTML + "<br>noclip"
+    chetinput.value = "";
+    chet.style.display = "none";
 }
 
-function aumentavida(arg){
-    let p = document.getElementById('pcheat')
+function aumentavida(arg) {
+    let p = document.getElementById('pcheat');
+    let chetinput = document.getElementById('cheatInput');
+
     vidapers += parseInt(arg);
-    p.innerHTML = p.innerHTML + "<br>vidapers" + arg
+    p.innerHTML = p.innerHTML + "<br>vidapers " + arg
+    chetinput.value = "";
+}
+
+function morre() {
+    verposic();
+    let inimigo;
+    let dir;
+    let chet = document.getElementById("divcheat");
+    let comb = document.getElementById("combate");
+    let btncomb = document.getElementById("btnscombate");
+    let chetinput = document.getElementById("cheatInput");
+
+    if (mapa[blococima][posxpers] === 4 || mapa[blococima][posxpers] === 7 || mapa[blococima][posxpers] === 5 || mapa[blococima][posxpers] === 2) {
+        dir = "cima";
+        if (mapa[blococima][posxpers] === 5) {
+            chavebau = true;
+        } else if (mapa[blococima][posxpers] === 7) {
+            chaveboss = true;
+        }
+    } else if (mapa[blocobaixo][posxpers] === 4 || mapa[blocobaixo][posxpers] === 7 || mapa[blocobaixo][posxpers] === 5 || mapa[blocobaixo][posxpers] === 2) {
+        dir = "baixo";
+        if (mapa[blocobaixo][posxpers] === 5) {
+            chavebau = true;
+        } else if (mapa[blocobaixo][posxpers] === 7) {
+            chaveboss = true;
+        }
+    } else if (mapa[posypers][blocoesq] === 4 || mapa[posypers][blocoesq] === 7 || mapa[posypers][blocoesq] === 5 || mapa[posypers][blocoesq] === 2) {
+        dir = "esquerda";
+        if (mapa[posypers][blocoesq] === 5) {
+            chavebau = true;
+        } else if (mapa[posypers][blocoesq] === 7) {
+            chaveboss = true;
+        }
+    } else if (mapa[posypers][blocodir] === 4 || mapa[posypers][blocodir] === 7 || mapa[posypers][blocodir] === 5 || mapa[posypers][blocodir] === 2) {
+        dir = "direita";
+        if (mapa[posypers][blocodir] === 5) {
+            chavebau = true;
+        } else if (mapa[posypers][blocodir] === 7) {
+            chaveboss = true;
+        }
+    }
+
+    if (dir === "cima") {
+        inimigo = document.getElementById(`mapa(${blococima},${posxpers})`);
+    } else if (dir === "baixo") {
+        inimigo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
+    } else if (dir === "esquerda") {
+        inimigo = document.getElementById(`mapa(${posypers},${blocoesq})`);
+    } else if (dir === "direita") {
+        inimigo = document.getElementById(`mapa(${posypers},${blocodir})`);
+    }
+    let imginimigo = inimigo.querySelector("img");
+    imginimigo.src = "trans.png";
+    inimigo.style.backgroundColor = "#00000000";
+    if (dir === "cima") {
+        mapa[blococima][posxpers] = 0;
+    } else if (dir === "baixo") {
+        mapa[blocobaixo][posxpers] = 0;
+    } else if (dir === "esquerda") {
+        mapa[posypers][blocoesq] = 0;
+    } else if (dir === "direita") {
+        mapa[posypers][blocodir] = 0;
+    }
+    mover = true;
+    comb.style.visibility = "collapse";
+    btncomb.style.visibility = "collapse";
+    chet.style.display = "none";
+    chetinput.value = "";
 }
 
 function cheatfunc() {
-    var p = document.getElementById("pcheat");
-    var cheatinput = document.getElementById("cheatInput").value;
-    var command = cheatinput.split(" ")[0];
-    var argument = cheatinput.split(" ")[1];
+    let p = document.getElementById("pcheat");
+    let cheatinput = document.getElementById("cheatInput").value;
+    let inpu = document.getElementById("cheatInput");
+    let command = cheatinput.split(" ")[0];
+    let argument = cheatinput.split(" ")[1];
 
-        switch (command) {
-            case "noclip":
-                noclip();
-                break;
-            case "abretesesamo":
-                abretesesamo();
-                break; 
-            case "vidapers":
-                aumentavida(argument);
-                break;
-            default:
-                p.innerHTML = p.innerHTML + "<br>" + command + " não é um comando válido."
-        }
-    
-    cheatinput.value = ""    
+    switch (command) {
+        case "noclip":
+            noclip();
+            break;
+        case "abretesesamo":
+            abretesesamo();
+            break;
+        case "vidapers":
+            aumentavida(argument);
+            break;
+        case "morre":
+            morre();
+            break;
+        default:
+            p.innerHTML = p.innerHTML + "<br>" + command + " não é um comando válido."
+    }
+    if (!cheatprime) {
+        cheatprime = true;
+        inpu.value = ""
+        conseguidas[1] = 1;
+        achievement("Cheater!!!")
+    }
+}
+
+function achievement(texto) {
+    let divconquista = document.createElement('div');
+    divconquista.className = 'achievements';
+
+    let trofeu = document.createElement('img');
+    trofeu.src = 'trofeu.png';
+    trofeu.height = 50;
+    trofeu.style.margin = "0 20px 0 20px";
+
+
+    divconquista.appendChild(trofeu);
+    divconquista.appendChild(document.createTextNode(texto));
+
+    document.body.appendChild(divconquista);
+
+    divconquista.style.position = 'fixed';
+    divconquista.style.top = '-50px';
+    divconquista.style.left = '50%';
+    divconquista.style.transform = 'translateX(-50%)';
+    divconquista.style.transition = 'top 2s';
+
+    setTimeout(function () {
+        divconquista.style.top = '10px';
+    }, 100);
+
+    setTimeout(function () {
+        document.body.removeChild(divconquista);
+    }, 5000);
 }
