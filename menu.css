@@ -14,7 +14,7 @@ body, html {
     position: absolute;
     width: 200%;
     height: 200%;
-    background: url('logo2.png') repeat;
+    background: url('img/logo2.png') repeat;
     background-size: 400px 400px; /* Diminui a imagem da logo */
     transform: rotate(45deg);
     animation: moveBackground 60s linear infinite;

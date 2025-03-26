@@ -5,7 +5,7 @@ body {
     height: 100vh;
     background-color: #f0f0f0;
     align-items: center;
-    background-image: url("fundo.png");
+    background-image: url("img/fundo.png");
 }
 
 .container {
@@ -30,7 +30,7 @@ body {
 .inventario {
     margin-right: 20px;
     margin-left: 20px;
-    background-image: url("fundolateral.png");
+    background-image: url("img/fundolateral.png");
     width: 360px;
     height: 620px;
     padding: 20px;
@@ -55,13 +55,13 @@ body {
     display: block;
     width: 1000px;
     height: 660px;
-    background-image: url("mapapixel2.png");
+    background-image: url("img/mapapixel2.png");
     border-bottom: solid 10px #000;
 }
 
 .combate {
     visibility: collapse;
-    background-image: url("fundocombate.png");
+    background-image: url("img/fundocombate.png");
     width: 700px;
     height: 600px;
     display: flex;
@@ -80,7 +80,7 @@ body {
 
 
 .botoes {
-    background-image: url("fundobotao.png");
+    background-image: url("img/fundobotao.png");
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -92,7 +92,7 @@ body {
 }
 
 .achievements {
-    background-image: url("fundobotao.png");
+    background-image: url("img/fundobotao.png");
     display: flex;
     font-size: 30px;
     flex-direction: row;

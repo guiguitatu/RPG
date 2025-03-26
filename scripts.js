@@ -38,12 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "none";
     }
 
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
     var exitButton = document.getElementById("exitButton");
     exitButton.onclick = function () {
         window.close();
@@ -67,9 +61,9 @@ document.getElementById('conquistasButton').onclick = function () {
         img.height = 50;
         img.style.margin = "0 20px 0 20px";
         if (conquistas[i] === 1) {
-            img.src = 'trofeu.png';
+            img.src = 'img/trofeu.png';
         } else {
-            img.src = 'trofeucinza.png';
+            img.src = 'img/trofeucinza.png';
         }
         div.appendChild(img);
 

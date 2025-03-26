@@ -777,7 +777,7 @@ function limpaarea() {
         let quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
         let imgcima = quacima.querySelector("img");
         if (mapa[blococima][posxpers] !== 9 && mapa[blococima][posxpers] !== 2) {
-            imgcima.src = "trans.png";
+            imgcima.src = "img/trans.png";
         }
         quacima.style.backgroundColor = "#00000000";
     }
@@ -786,7 +786,7 @@ function limpaarea() {
         let quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
         let imgbaixo = quabaixo.querySelector("img");
         if (mapa[blocobaixo][posxpers] !== 9 && mapa[blocobaixo][posxpers] !== 2) {
-            imgbaixo.src = "trans.png";
+            imgbaixo.src = "img/trans.png";
         }
         quabaixo.style.backgroundColor = "#00000000";
     }
@@ -795,7 +795,7 @@ function limpaarea() {
         let quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
         let imgesq = quaesq.querySelector("img");
         if (mapa[posypers][blocoesq] !== 9 && mapa[posypers][blocoesq] !== 2) {
-            imgesq.src = "trans.png";
+            imgesq.src = "img/trans.png";
         }
         quaesq.style.backgroundColor = "#00000000";
     }
@@ -804,7 +804,7 @@ function limpaarea() {
         let quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
         let imgdir = quadir.querySelector("img");
         if (mapa[posypers][blocodir] !== 9 && mapa[posypers][blocodir] !== 2) {
-            imgdir.src = "trans.png";
+            imgdir.src = "img/trans.png";
         }
         quadir.style.backgroundColor = "#00000000";
     }
@@ -812,20 +812,20 @@ function limpaarea() {
 
 function limpainimigo() {
     verposic();
-    if (blococima > 0 && blococima < 11 && mapa[blococima][posxpers] !== 1) {
+    if (blococima > 0 && blococima <= 11 && mapa[blococima][posxpers] !== 1) {
         console.log("Bloco cima: " + blococima)
         let quacima = document.getElementById(`mapa(${blococima},${posxpers})`);
         mapa[blococima][posxpers] = 0;
         let imgcima = quacima.querySelector("img");
-        imgcima.src = "trans.png";
+        imgcima.src = "img/trans.png";
         imgcima.style.backgroundColor = "#00000000";
     }
-    if (blocobaixo >= 0 && blocobaixo < 11 && mapa[blococima][posxpers] !== 1) {
+    if (blocobaixo >= 0 && blocobaixo <= 11 && mapa[blococima][posxpers] !== 1) {
         console.log("Bloco baixo: " + blocobaixo)
         let quabaixo = document.getElementById(`mapa(${blocobaixo},${posxpers})`);
         mapa[blocobaixo][posxpers] = 0;
         let imgbaixo = quabaixo.querySelector("img");
-        imgbaixo.src = "trans.png";
+        imgbaixo.src = "img/trans.png";
         imgbaixo.style.backgroundColor = "#00000000";
     }
     if (blocoesq > 0 && blocoesq < 19 && mapa[blococima][posxpers] !== 1) {
@@ -833,7 +833,7 @@ function limpainimigo() {
         let quaesq = document.getElementById(`mapa(${posypers},${blocoesq})`);
         mapa[posypers][blocoesq] = 0;
         let imgesq = quaesq.querySelector("img");
-        imgesq.src = "trans.png";
+        imgesq.src = "img/trans.png";
         imgesq.style.backgroundColor = "#00000000";
     }
     if (blocodir > 0 && blocodir < 19 && mapa[blococima][posxpers] !== 1) {
@@ -841,7 +841,7 @@ function limpainimigo() {
         let quadir = document.getElementById(`mapa(${posypers},${blocodir})`);
         mapa[posypers][blocodir] = 0;
         let imgdir = quadir.querySelector("img");
-        imgdir.src = "trans.png";
+        imgdir.src = "img/trans.png";
         imgdir.style.backgroundColor = "#00000000";
     }
 }
@@ -1025,11 +1025,11 @@ function anda(dir) {
                 blocomuda = document.getElementById(`mapa(${posypers},${blocodir})`);
             }
             const imagem = blocomuda.querySelector("img");
-            imagem.src = "personagem3.png";
+            imagem.src = "img/personagem3.png";
             let blocopers = document.getElementById(`mapa(${posypers},${posxpers})`);
             let imgboneco = blocopers.querySelector("img");
             text.innerHTML = " ";
-            imgboneco.src = "trans.png";
+            imgboneco.src = "img/trans.png";
             blocomuda.style.backgroundColor = "#00000000";
             if (dir === "cima") {
                 mudaposperscima()
@@ -1079,7 +1079,7 @@ function anda(dir) {
                 inimigo = document.getElementById(`mapa(${posypers},${blocodir})`);
             }
             const imagem = inimigo.querySelector("img");
-            imagem.src = "inimigo.png";
+            imagem.src = "img/inimigo.png";
             inimigo.style.backgroundColor = "#00000000";
             divanda.style.visibility = "collapse";
             vidainimigo = 20;
@@ -1114,7 +1114,7 @@ function anda(dir) {
             }
             inimigo.style.backgroundColor = "#00000000";
             const imagem = inimigo.querySelector("img");
-            imagem.src = "boss.png"
+            imagem.src = "img/boss.png"
             text.innerHTML = "Você encontrou o boss, agora prepare-se para a luta."
             combate()
 
@@ -1132,7 +1132,7 @@ function anda(dir) {
             }
             const imagem = inimigo.querySelector("img");
             inimigo.style.backgroundColor = "#00000000";
-            imagem.src = "miniboss.png"
+            imagem.src = "img/miniboss.png"
             text.innerHTML = "Você me achou, e se quer enfrentar o boss, vai ter que pegar a chave que está comigo, ha ha ha..."
             divanda.style.visibility = "collapse";
             combate();
@@ -1155,7 +1155,7 @@ function anda(dir) {
                 mover = false;
                 text.innerHTML = "Você encontrou um baú, deseja abri-lo?"
                 bau.style.backgroundColor = "#00000000"
-                imgbau.src = "baufechado.png"
+                imgbau.src = "img/baufechado.png"
                 if (!baudun) {
                     setTimeout(() => {
                         conmed = confirm("Deseja abrir o baú?")
@@ -1167,7 +1167,7 @@ function anda(dir) {
                             } else if (chavebau === true && conmed) {
                                 let botoes = document.getElementById("btns");
                                 botoes.style.visibility = "collapse"
-                                imgbau.src = "bautesouro.png"
+                                imgbau.src = "img/bautesouro.png"
                                 conseguidas[5] = 1;
                                 achievement("O jogo")
                                 if (vidapers === 100 && conseguidas[1] !== 1) {
@@ -1209,7 +1209,7 @@ function anda(dir) {
                                 mover = true
                                 let botoes = document.getElementById("btns");
                                 botoes.style.visibility = "collapse"
-                                imgbau.src = "bautesouro.png"
+                                imgbau.src = "img/bautesouro.png"
                                 text.innerHTML = "Você pegou a chave e conseguiu abrir o baú, aproveite o tesouro que esse baú obtém. Indo para o menu."
                                 setTimeout(function () {
                                     localStorage.setItem("conseguidas", JSON.stringify(conseguidas));
@@ -1223,12 +1223,12 @@ function anda(dir) {
                 let conmed;
                 text.innerHTML = "Você encontrou um baú, deseja abri-lo?"
                 bau.style.backgroundColor = "#00000000"
-                imgbau.src = "bau1.png"
+                imgbau.src = "img/bau1.png"
                 if (!baudun) {
                     setTimeout(() => {
                         conmed = confirm("Deseja abrir o baú?")
                         if (conmed === true) {
-                            imgbau.src = "bau2.png"
+                            imgbau.src = "img/bau2.png"
                             combate();
                         } else mover = true
                     }, 2000);
@@ -1248,7 +1248,7 @@ function anda(dir) {
             }
             let imgpocao = pocao.querySelector("img");
             pocao.style.backgroundColor = "#00000000"
-            imgpocao.src = "pocao.png"
+            imgpocao.src = "img/pocao.png"
             if (dir === "cima") {
                 mapa[blococima][posxpers] = 0
             } else if (dir === "baixo") {
@@ -1261,7 +1261,7 @@ function anda(dir) {
 
             setTimeout(function () {
                 cura += 1
-                imgpocao.src = "trans.png"
+                imgpocao.src = "img/trans.png"
                 mover = true
             }, 2000)
         }
@@ -1359,7 +1359,7 @@ function morre() {
         inimigo = document.getElementById(`mapa(${posypers},${blocodir})`);
     }
     let imginimigo = inimigo.querySelector("img");
-    imginimigo.src = "trans.png";
+    imginimigo.src = "img/trans.png";
     inimigo.style.backgroundColor = "#00000000";
     if (dir === "cima") {
         mapa[blococima][posxpers] = 0;
@@ -1413,7 +1413,7 @@ function achievement(texto) {
     divconquista.className = 'achievements';
 
     let trofeu = document.createElement('img');
-    trofeu.src = 'trofeu.png';
+    trofeu.src = 'img/trofeu.png';
     trofeu.height = 50;
     trofeu.style.margin = "0 20px 0 20px";
 
